@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ValoROAD</title>
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/css/app.css">
+<script>
+  // 화면이 그려지기 전에 테마를 정해서 깜빡임을 막아요
+  try { const t = localStorage.getItem('valoroad-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="brand">
+    <span class="brand-mark" id="brandMark"></span>
+    <div class="brand-text">
+      <b>VALO<span>ROAD</span></b>
+      <small>STORE TRACKER</small>
+    </div>
+  </div>
+  <div class="top-mid">
+    <div class="reset-chip" id="resetChip" title="오늘의 상점이 바뀌기까지 남은 시간">
+      <i class="ic-clock"></i>
+      <span class="lbl">상점 교체까지</span>
+      <b id="resetTimer">--:--:--</b>
+    </div>
+  </div>
+  <div class="top-right">
+    <div class="seg" id="themeToggle" role="group" aria-label="화면 모드">
+      <button data-theme="system" title="시스템 설정 따르기">시스템</button>
+      <button data-theme="light" title="라이트 모드">라이트</button>
+      <button data-theme="dark" title="다크 모드">다크</button>
+    </div>
+    <button class="ver" id="verBadge" title="버전 정보 · 업데이트"><i></i><span id="verText">v-</span></button>
+    <button class="icon-btn" id="settingsBtn" title="설정"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
+    <button class="icon-btn" id="quitBtn" title="ValoROAD 종료"><svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M6.4 7.4a8 8 0 1 0 11.2 0"/></svg></button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side">
+    <div class="side-head">
+      <span class="tag">// AGENTS</span>
+      <h2>내 계정 <em id="accCount">0/3</em></h2>
+    </div>
+    <div class="acc-list" id="accList"></div>
+
+    <div class="hud-card" id="dailyCard">
+      <span class="tag">// AUTO CHECK</span>
+      <div class="hud-row"><i class="dot" id="dailyDot"></i><span id="dailyText">매일 자동 확인</span></div>
+      <small id="dailySub">앱이 꺼져 있어도 위시리스트 스킨이 뜨면 알려 드려요.</small>
+    </div>
+    <div class="hud-card wish-mini" id="wishMini">
+      <span class="tag">// WISHLIST</span>
+      <div class="hud-row"><svg class="heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.3 1 5 2.8 1.7-1.8 3-2.8 5-2.8 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2Z"/></svg><b id="wishCount">0</b><span>개 지켜보는 중</span></div>
+      <small id="wishHitText">상점에 뜨면 바로 알려 드려요.</small>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <section class="hero" id="hero" hidden>
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-in">
+        <div class="hero-avatar" id="heroAvatar"></div>
+        <div class="hero-id">
+          <span class="tag" id="heroRegion">// KR</span>
+          <h1><span id="heroName">-</span><em id="heroTag"></em></h1>
+          <div class="hero-meta">
+            <span class="lvl" id="heroLevel">LV —</span>
+            <span class="upd" id="heroUpdated">-</span>
+          </div>
+        </div>
+        <div class="wallet" id="wallet"></div>
+        <button class="btn ghost refresh" id="refreshBtn" title="상점 새로 고침 (⌘R)"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>새로 고침</span></button>
+      </div>
+    </section>
+
+    <nav class="tabs" id="tabs" hidden>
+      <button data-tab="daily" class="on"><span class="tab-ko">오늘의 상점</span><span class="tab-en">DAILY</span></button>
+      <button data-tab="night"><span class="tab-ko">야시장</span><span class="tab-en">NIGHT MARKET</span><i class="tab-dot" id="nightDot" hidden></i></button>
+      <button data-tab="bundle"><span class="tab-ko">번들</span><span class="tab-en">FEATURED</span></button>
+      <button data-tab="wish"><span class="tab-ko">위시리스트</span><span class="tab-en">WISHLIST</span><b class="tab-n" id="wishTabN"></b></button>
+      <span class="sp"></span>
+      <span class="tab-timer" id="tabTimer"></span>
+    </nav>
+
+    <section class="content" id="content"></section>
+  </main>
+</div>
+
+<footer class="foot">made by. Nevertheless_D</footer>
+
+<div class="modal-veil" id="modalVeil" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-head"><h3 id="modalTitle"></h3><button class="icon-btn" id="modalClose" title="닫기 (Esc)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="/js/art.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
