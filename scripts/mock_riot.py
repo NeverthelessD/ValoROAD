@@ -6,6 +6,7 @@
 
 Uses real item ids from valorant-api.com so the app shows real names and images.
 Admin endpoints (POST): /admin/expire?acct=a1  /admin/block?on=1  /admin/next?acct=a2  /admin/rotate
+                        /admin/blank?n=1 (next n login pages render nothing, like a blank window)
 The login page auto-submits the account from /admin/next (default a1) after ~1.2s, so tests can run unattended.
 """
 import hashlib, http.server, json, os, random, socketserver, sys, time, urllib.parse, urllib.request
@@ -56,7 +57,7 @@ ACCOUNTS = {
     "a2": {"name": "NightOwl", "tag": "0412", "level": 64, "night": False},
     "a3": {"name": "제트원챔", "tag": "777", "level": 312, "night": True},
 }
-STATE = {"valid": {}, "block": False, "next": "a1", "day": 0}
+STATE = {"valid": {}, "block": False, "next": "a1", "day": 0, "blank": 0}
 
 def puuid(a):
     h = hashlib.md5(("puuid" + a).encode()).hexdigest()
@@ -175,6 +176,11 @@ class H(http.server.BaseHTTPRequestHandler):
                 return self.send(303, "", "text/html", [("Location", f"{BASE}/opt_in#{frag}"),
                                  ("Set-Cookie", f"ssid={ssid}; Path=/; HttpOnly; Max-Age=2592000")])
             return self.send(303, "", "text/html", [("Location", f"{BASE}/login?{u.query}")])
+        if p == "/login" and STATE["blank"] > 0:
+            # 내용이 그려지지 않는 로그인 창 흉내 (스크립트 오류)
+            STATE["blank"] -= 1
+            return self.send(200, "<!doctype html><title>Sign in with your Riot account</title><body style='background:#262626'>"
+                             "<script>throw new Error('mock: app bundle failed')</script>", "text/html; charset=utf-8")
         if p == "/login":
             return self.send(200, LOGIN_HTML % {"q": u.query, "acct": STATE["next"]}, "text/html; charset=utf-8")
         if p == "/opt_in":
@@ -245,6 +251,9 @@ class H(http.server.BaseHTTPRequestHandler):
             return self.send(200, {"ok": True})
         if p == "/admin/next":
             STATE["next"] = q.get("acct", ["a1"])[0]
+            return self.send(200, {"ok": True})
+        if p == "/admin/blank":
+            STATE["blank"] = int(q.get("n", ["1"])[0])
             return self.send(200, {"ok": True})
         if p == "/admin/rotate":
             STATE["day"] += 1

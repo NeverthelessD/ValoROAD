@@ -377,6 +377,9 @@ img { -webkit-user-drag: none; }
 .login-art svg { width: 260px; height: auto; }
 .login-status { display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin-top: 12px; border: 1px solid var(--hud); background: color-mix(in srgb, var(--hud) 10%, transparent); }
 .login-status.err { border-color: var(--red); background: var(--red-soft); }
+.login-status.warn { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.login-status.warn .radar { border-color: var(--gold); }
+.login-status.warn .radar::after { background: conic-gradient(var(--gold), transparent 70%); }
 .login-status .radar { position: relative; width: 26px; height: 26px; flex: none; border: 2px solid var(--hud); border-radius: 50%; }
 .login-status .radar::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(var(--hud), transparent 70%); animation: spin 1.2s linear infinite; }
 .login-status b { display: block; }

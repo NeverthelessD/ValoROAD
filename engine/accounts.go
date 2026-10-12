@@ -283,7 +283,7 @@ func (a *Accounts) Session(id string, forceNew bool) (*riotSession, error) {
 		// 쿠키만으로 안 되면 저장된 브라우저 프로필로 조용히 다시 로그인
 		log.Printf("[%s] trying silent browser re-login", acc.Name)
 		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
-		res, err = chromeAuth(ctx, a.browser(), a.profileDir(id), true, nil)
+		res, err = chromeAuth(ctx, a.browser(), a.profileDir(id), true, nil, nil)
 		cancel()
 		if err == nil && len(res.Cookies) > 0 {
 			cookies = res.Cookies
@@ -366,6 +366,7 @@ type LoginState struct {
 	AccountID string `json:"accountId,omitempty"`
 	Relogin   string `json:"relogin,omitempty"`
 	Browser   string `json:"browser,omitempty"`
+	Hint      string `json:"hint,omitempty"` // blank | stuck — the login window looks empty
 	StartedAt int64  `json:"startedAt"`
 }
 
@@ -375,6 +376,21 @@ type LoginManager struct {
 	cancel context.CancelFunc
 	acc    *Accounts
 	onDone func(id string)
+	reload chan struct{}
+}
+
+// Reload asks the open login window to load the Riot page again.
+func (m *LoginManager) Reload() {
+	m.mu.Lock()
+	ch := m.reload
+	m.mu.Unlock()
+	if ch == nil {
+		return
+	}
+	select {
+	case ch <- struct{}{}:
+	default:
+	}
 }
 
 func (m *LoginManager) State() *LoginState {
@@ -463,13 +479,24 @@ func (m *LoginManager) run(ctx context.Context, sid string, b *Browser, relogin 
 		profile = a.profileDir(relogin)
 	}
 	m.set(func(s *LoginState) { s.Stage = "waiting" })
+	rl := make(chan struct{}, 1)
+	m.mu.Lock()
+	m.reload = rl
+	m.mu.Unlock()
 	res, err := chromeAuth(ctx, b, profile, false, func(stage string) {
 		m.set(func(s *LoginState) {
+			if strings.HasPrefix(stage, "hint:") {
+				s.Hint = strings.TrimPrefix(stage, "hint:")
+				return
+			}
 			if s.Stage != "cancelled" {
 				s.Stage = stage
 			}
 		})
-	})
+	}, rl)
+	m.mu.Lock()
+	m.reload = nil
+	m.mu.Unlock()
 	fail := func(msg string) {
 		m.set(func(s *LoginState) {
 			if s.Stage != "cancelled" {

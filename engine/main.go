@@ -270,6 +270,10 @@ func (a *App) routes() http.Handler {
 		a.login.Cancel()
 		writeJSON(w, map[string]any{"ok": true})
 	})
+	api("/api/accounts/login/reload", func(w http.ResponseWriter, r *http.Request) {
+		a.login.Reload()
+		writeJSON(w, map[string]any{"ok": true})
+	})
 	api("/api/accounts/login/dismiss", func(w http.ResponseWriter, r *http.Request) {
 		a.login.Dismiss()
 		writeJSON(w, map[string]any{"ok": true})

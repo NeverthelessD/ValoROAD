@@ -13,9 +13,13 @@ A "script-type" app, same structure as YTROAD: `ValoROAD.app/Contents/MacOS/Valo
 
 - `engine/` — Go, stdlib only. Embeds `web/`.
   - `main.go` routes, settings (appearance, notify, dailyCheck, autoUpdate, lastAccount), poll, store/catalog/skin/wishlist handlers
-  - `cdp.go` + `ws.go` — Riot sign-in happens in the person's own Chrome: a separate Chrome process per account profile
+  - `cdp.go` + `ws.go` — Riot sign-in happens in the person's own Chrome: a separate Chrome instance per account profile
     (`Support/accounts/<puuid>/browser`) with `--remote-debugging-port=0`; a tiny websocket/CDP client watches for the redirect to
     `playvalorant.com/opt_in#access_token=…` and reads the riotgames.com cookies. Headless mode of the same profile is the silent re-login fallback.
+    On macOS the visible login window is opened with `open -na <Chrome.app> --args …` (LaunchServices) — exec'ing Chrome directly from the
+    background engine gave a window whose page never painted (v1.0.0 bug). `pageWatch` attaches to the page (flat CDP session), logs page
+    errors as `[login] …` lines in engine.log, probes for inputs after ~9 s, auto-reloads twice (hint "blank"), then shows hint "stuck"
+    with a manual reload button (`/api/accounts/login/reload`).
   - `riot.go` — unofficial endpoints: cookie reauth (`auth.riotgames.com/authorize`, no redirects), entitlements, userinfo, riot-geo (region→shard),
     `pd.<shard>.a.pvp.net` storefront v3 (POST, falls back to v2 GET), wallet, owned skins, account-xp, playerloadout.
   - `accounts.go` — up to 3 accounts (`accounts.json`), cookies in the macOS keychain (service "ValoROAD", via /usr/bin/security; file fallback),
@@ -46,7 +50,7 @@ and copy a 256px version to `engine/web/icon.png`.
 
 - `python3 scripts/mock_riot.py 9900` — fake Riot auth/login page/pd servers using real item ids from valorant-api.com
   (admin: `/admin/next?acct=a1|a2|a3`, `/admin/expire?acct=`, `/admin/block?on=1` (blocks non-browser reauth → tests silent browser re-login),
-  `/admin/force` with a JSON list of skin uuids to put in a1's daily store, `/admin/rotate`). Its login page auto-submits after ~1.2s.
+  `/admin/force` with a JSON list of skin uuids to put in a1's daily store, `/admin/rotate`, `/admin/blank?n=` = next n login pages render nothing). Its login page auto-submits after ~1.2s.
 - Run the engine with `VALOROAD_SUPPORT`, `VALOROAD_TOKEN`, `VALOROAD_PORT`, `VALOROAD_MOCK=http://127.0.0.1:9900`,
   `VALOROAD_BROWSER=<playwright chromium>`, `VALOROAD_BROWSER_ARGS="--no-sandbox --headless=new"`, `VALOROAD_BROWSER_NAME=크롬`,
   `VALOROAD_NOTIFY_LOG=<file>` (notifications are appended there), `VALOROAD_UPDATE_URL=<local latest.json>`, `VALOROAD_NO_KEYCHAIN=1`.

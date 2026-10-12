@@ -23,6 +23,7 @@ import (
 type Browser struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	App  string `json:"app,omitempty"` // macOS .app bundle (opened through LaunchServices)
 }
 
 var errLoginClosed = errors.New("로그인 창을 닫았어요")
@@ -53,9 +54,10 @@ func findBrowser() *Browser {
 		{"Chromium", "Chromium", "크로미움"},
 	} {
 		for _, root := range []string{"/Applications", filepath.Join(home, "Applications")} {
-			p := filepath.Join(root, b.app+".app", "Contents", "MacOS", b.bin)
+			app := filepath.Join(root, b.app+".app")
+			p := filepath.Join(app, "Contents", "MacOS", b.bin)
 			if fileExists(p) {
-				return &Browser{Name: b.name, Path: p}
+				return &Browser{Name: b.name, Path: p, App: app}
 			}
 		}
 	}
@@ -93,7 +95,7 @@ type cdpConn struct {
 }
 
 func newCDP(ws *wsConn) *cdpConn {
-	c := &cdpConn{ws: ws, pending: map[int]chan cdpMsg{}, events: make(chan cdpMsg, 256), done: make(chan struct{})}
+	c := &cdpConn{ws: ws, pending: map[int]chan cdpMsg{}, events: make(chan cdpMsg, 1024), done: make(chan struct{})}
 	go c.readLoop()
 	return c
 }
@@ -127,6 +129,11 @@ func (c *cdpConn) readLoop() {
 }
 
 func (c *cdpConn) Call(method string, params any) (json.RawMessage, error) {
+	return c.CallSession("", method, params)
+}
+
+// CallSession sends a command to one attached page (flat session) — or to the browser when session is "".
+func (c *cdpConn) CallSession(session, method string, params any) (json.RawMessage, error) {
 	c.mu.Lock()
 	c.next++
 	id := c.next
@@ -136,7 +143,11 @@ func (c *cdpConn) Call(method string, params any) (json.RawMessage, error) {
 	if params == nil {
 		params = map[string]any{}
 	}
-	b, _ := json.Marshal(map[string]any{"id": id, "method": method, "params": params})
+	msg := map[string]any{"id": id, "method": method, "params": params}
+	if session != "" {
+		msg["sessionId"] = session
+	}
+	b, _ := json.Marshal(msg)
 	if err := c.ws.WriteText(b); err != nil {
 		return nil, err
 	}
@@ -156,10 +167,11 @@ func (c *cdpConn) Call(method string, params any) (json.RawMessage, error) {
 // ---------------------------------------------------------------- browser process
 
 type chromeRun struct {
-	cmd  *exec.Cmd
-	cdp  *cdpConn
-	dir  string
-	exit chan struct{}
+	cmd    *exec.Cmd
+	cdp    *cdpConn
+	dir    string
+	exit   chan struct{}
+	viaApp bool // started with `open -na` (macOS): no child process to wait on
 }
 
 func browserArgs(profileDir string, headless bool, startURL string) []string {
@@ -192,17 +204,35 @@ func startChrome(b *Browser, profileDir string, headless bool, startURL string) 
 	portFile := filepath.Join(profileDir, "DevToolsActivePort")
 	os.Remove(portFile)
 	os.Remove(filepath.Join(profileDir, "SingletonLock"))
-	cmd := exec.Command(b.Path, browserArgs(profileDir, headless, startURL)...)
-	cmd.Stdout, cmd.Stderr = nil, nil
-	setProcessGroup(cmd)
-	if err := cmd.Start(); err != nil {
-		return nil, fmt.Errorf("브라우저를 열지 못했어요: %v", err)
+	args := browserArgs(profileDir, headless, startURL)
+	run := &chromeRun{dir: profileDir, exit: make(chan struct{})}
+
+	// 맥에서 보이는 로그인 창은 앱 창과 똑같이 macOS를 통해 열어요 (open -na).
+	// 백그라운드 엔진에서 크롬을 바로 실행하면 창은 뜨지만 내용이 그려지지 않는 경우가 있어요.
+	if runtime.GOOS == "darwin" && !headless && b.App != "" {
+		run.viaApp = true
+		killProfileProcs(profileDir) // 남아 있던 같은 프로필 창 정리
+		out, err := exec.Command("/usr/bin/open", append([]string{"-na", b.App, "--args"}, args...)...).CombinedOutput()
+		if err != nil {
+			return nil, fmt.Errorf("브라우저를 열지 못했어요: %s", lastLine(string(out)))
+		}
+		log.Printf("[login] opened %s via LaunchServices", b.Name)
+	} else {
+		cmd := exec.Command(b.Path, args...)
+		if f, err := os.OpenFile(filepath.Join(filepath.Dir(profileDir), "chrome.log"), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600); err == nil {
+			cmd.Stdout, cmd.Stderr = f, f
+			defer f.Close()
+		}
+		setProcessGroup(cmd)
+		if err := cmd.Start(); err != nil {
+			return nil, fmt.Errorf("브라우저를 열지 못했어요: %v", err)
+		}
+		run.cmd = cmd
+		go func() { cmd.Wait(); close(run.exit) }()
 	}
-	run := &chromeRun{cmd: cmd, dir: profileDir, exit: make(chan struct{})}
-	go func() { cmd.Wait(); close(run.exit) }()
 
 	var wsURL string
-	deadline := time.Now().Add(20 * time.Second)
+	deadline := time.Now().Add(25 * time.Second)
 	for time.Now().Before(deadline) {
 		if b, err := os.ReadFile(portFile); err == nil {
 			lines := strings.Split(strings.TrimSpace(string(b)), "\n")
@@ -227,7 +257,32 @@ func startChrome(b *Browser, profileDir string, headless bool, startURL string) 
 		return nil, fmt.Errorf("브라우저와 연결하지 못했어요: %v", err)
 	}
 	run.cdp = newCDP(ws)
+	if run.viaApp {
+		// 프로세스를 직접 들고 있지 않으니, 개발자 도구 연결이 끊기면 창이 닫힌 걸로 봐요
+		go func() { <-run.cdp.done; close(run.exit) }()
+	}
 	return run, nil
+}
+
+// killProfileProcs ends Chrome processes that use this profile folder (for windows opened with `open`).
+func killProfileProcs(profileDir string) {
+	out, err := exec.Command("/bin/ps", "-axo", "pid=,command=").Output()
+	if err != nil {
+		return
+	}
+	needle := "--user-data-dir=" + profileDir
+	for _, line := range strings.Split(string(out), "\n") {
+		line = strings.TrimSpace(line)
+		if !strings.Contains(line, needle) {
+			continue
+		}
+		var pid int
+		if _, err := fmt.Sscan(line, &pid); err == nil && pid > 1 && pid != os.Getpid() {
+			if p, err := os.FindProcess(pid); err == nil {
+				p.Kill()
+			}
+		}
+	}
 }
 
 func (r *chromeRun) close() {
@@ -243,6 +298,10 @@ func (r *chromeRun) close() {
 }
 
 func (r *chromeRun) kill() {
+	if r.viaApp {
+		killProfileProcs(r.dir)
+		return
+	}
 	select {
 	case <-r.exit:
 		return
@@ -332,7 +391,9 @@ func isLoginPage(u string) bool {
 
 // chromeAuth opens the Riot sign-in flow in the given profile and waits until Riot hands out a token.
 // visible: a normal app window the person signs in to. headless: silent re-login using the saved profile.
-func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless bool, onStage func(string)) (*authResult, error) {
+// onStage gets "login" / "finishing", and "hint:blank" / "hint:stuck" / "hint:" while the window is being watched.
+// A value on reload asks for the login page to be reloaded.
+func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless bool, onStage func(string), reload <-chan struct{}) (*authResult, error) {
 	start := riot.authorizeURL()
 	if headless {
 		start = "about:blank"
@@ -343,6 +404,11 @@ func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless boo
 	}
 	defer run.close()
 	c := run.cdp
+	stage := func(s string) {
+		if onStage != nil {
+			onStage(s)
+		}
+	}
 	if _, err := c.Call("Target.setDiscoverTargets", map[string]any{"discover": true}); err != nil {
 		return nil, err
 	}
@@ -368,6 +434,9 @@ func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless boo
 		}
 	}
 
+	// ── 빈 창 감시 (보이는 로그인 창만): 페이지에 붙어서 오류를 기록하고, 내용이 안 그려지면 새로 고쳐요
+	w := &pageWatch{c: c, sessions: map[string]string{}}
+
 	var loginSince time.Time
 	tick := time.NewTicker(700 * time.Millisecond)
 	defer tick.Stop()
@@ -380,7 +449,17 @@ func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless boo
 			return nil, errLoginClosed
 		case <-c.done:
 			return nil, errLoginClosed
+		case <-reload:
+			if !headless {
+				log.Printf("[login] reload requested by user")
+				w.reload(true)
+				stage("hint:")
+			}
 		case m := <-c.events:
+			if m.SessionID != "" {
+				w.event(m)
+				continue
+			}
 			switch m.Method {
 			case "Target.targetCreated", "Target.targetInfoChanged":
 				var p struct {
@@ -393,18 +472,17 @@ func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless boo
 				sawPage = true
 				u := p.TargetInfo.URL
 				if _, ok := parseTokenURL(u); ok {
-					if onStage != nil {
-						onStage("finishing")
-					}
+					stage("finishing")
 					return finish(u)
+				}
+				if !headless {
+					w.attach(p.TargetInfo)
 				}
 				if isLoginPage(u) {
 					if loginSince.IsZero() {
 						loginSince = time.Now()
 					}
-					if onStage != nil {
-						onStage("login")
-					}
+					stage("login")
 				} else {
 					loginSince = time.Time{}
 				}
@@ -420,6 +498,152 @@ func chromeAuth(ctx context.Context, b *Browser, profileDir string, headless boo
 			if !headless && sawPage && len(run.pageTargets()) == 0 {
 				return nil, errLoginClosed
 			}
+			if !headless {
+				if h, changed := w.check(); changed {
+					stage("hint:" + h)
+				}
+			}
 		}
+	}
+}
+
+type pageWatch struct {
+	c        *cdpConn
+	sessions map[string]string // targetId → sessionId
+	current  string            // sessionId of the newest page
+	since    time.Time         // when the current page started loading
+	lastTry  time.Time
+	rendered bool
+	reloads  int
+	hint     string
+	logged   int
+}
+
+func (w *pageWatch) attach(t targetInfo) {
+	if _, ok := w.sessions[t.TargetID]; ok {
+		return
+	}
+	res, err := w.c.Call("Target.attachToTarget", map[string]any{"targetId": t.TargetID, "flatten": true})
+	if err != nil {
+		log.Printf("[login] attach: %v", err)
+		w.sessions[t.TargetID] = ""
+		return
+	}
+	var out struct {
+		SessionID string `json:"sessionId"`
+	}
+	json.Unmarshal(res, &out)
+	w.sessions[t.TargetID] = out.SessionID
+	w.current = out.SessionID
+	w.since, w.rendered = time.Now(), false
+	w.c.CallSession(out.SessionID, "Runtime.enable", nil)
+	w.c.CallSession(out.SessionID, "Log.enable", nil)
+	log.Printf("[login] watching page %.90s", t.URL)
+}
+
+func (w *pageWatch) note(format string, args ...any) {
+	if w.logged >= 60 {
+		return
+	}
+	w.logged++
+	log.Printf("[login] "+format, args...)
+}
+
+func (w *pageWatch) event(m cdpMsg) {
+	switch m.Method {
+	case "Runtime.exceptionThrown":
+		var p struct {
+			ExceptionDetails struct {
+				Text      string `json:"text"`
+				URL       string `json:"url"`
+				Exception struct {
+					Description string `json:"description"`
+				} `json:"exception"`
+			} `json:"exceptionDetails"`
+		}
+		json.Unmarshal(m.Params, &p)
+		d := p.ExceptionDetails
+		w.note("page error: %s %.200s (%.100s)", d.Text, d.Exception.Description, d.URL)
+	case "Runtime.consoleAPICalled":
+		var p struct {
+			Type string `json:"type"`
+			Args []struct {
+				Value       any    `json:"value"`
+				Description string `json:"description"`
+			} `json:"args"`
+		}
+		json.Unmarshal(m.Params, &p)
+		if p.Type == "error" && len(p.Args) > 0 {
+			w.note("console error: %v %.200s", p.Args[0].Value, p.Args[0].Description)
+		}
+	case "Log.entryAdded":
+		var p struct {
+			Entry struct {
+				Level string `json:"level"`
+				Text  string `json:"text"`
+				URL   string `json:"url"`
+			} `json:"entry"`
+		}
+		json.Unmarshal(m.Params, &p)
+		if p.Entry.Level == "error" && !strings.Contains(p.Entry.URL, ".ttf") {
+			w.note("log %s: %.200s (%.120s)", p.Entry.Level, p.Entry.Text, p.Entry.URL)
+		}
+	}
+}
+
+const pageProbe = `(()=>{const b=document.body;return JSON.stringify({u:location.href.slice(0,140),rs:document.readyState,` +
+	`i:document.querySelectorAll('input,button').length,t:b?b.innerText.trim().length:-1,h:b?b.innerHTML.length:-1,` +
+	`s:[...document.scripts].length,w:innerWidth,vh:innerHeight,vis:document.visibilityState})})()`
+
+// check probes the page; it returns the hint to show and whether it changed.
+func (w *pageWatch) check() (string, bool) {
+	if w.current == "" || w.rendered || time.Since(w.since) < 9*time.Second || time.Since(w.lastTry) < 6*time.Second {
+		return w.hint, false
+	}
+	w.lastTry = time.Now()
+	res, err := w.c.CallSession(w.current, "Runtime.evaluate", map[string]any{"expression": pageProbe, "returnByValue": true})
+	if err != nil {
+		w.note("probe failed: %v", err)
+		return w.hint, false
+	}
+	var out struct {
+		Result struct {
+			Value string `json:"value"`
+		} `json:"result"`
+	}
+	json.Unmarshal(res, &out)
+	var st struct {
+		U string `json:"u"`
+		I int    `json:"i"`
+	}
+	json.Unmarshal([]byte(out.Result.Value), &st)
+	old := w.hint
+	if st.I > 0 {
+		w.rendered, w.hint = true, ""
+		log.Printf("[login] page ready after %s", time.Since(w.since).Round(time.Second))
+		return w.hint, old != w.hint
+	}
+	w.note("page still empty: %s", out.Result.Value)
+	if w.reloads < 2 {
+		w.reload(false)
+		w.hint = "blank"
+	} else {
+		w.hint = "stuck"
+	}
+	return w.hint, old != w.hint
+}
+
+func (w *pageWatch) reload(byUser bool) {
+	if w.current == "" {
+		return
+	}
+	if byUser {
+		w.reloads = 0
+	} else {
+		w.reloads++
+	}
+	w.since, w.lastTry, w.rendered = time.Now(), time.Time{}, false
+	if _, err := w.c.CallSession(w.current, "Page.reload", map[string]any{"ignoreCache": true}); err != nil {
+		w.note("reload failed: %v", err)
 	}
 }

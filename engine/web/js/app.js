@@ -666,7 +666,7 @@ function onLoginClose() {
 function renderLogin(st) {
   const body = $('#loginBody');
   if (!body || !st) return;
-  const sig = JSON.stringify([st.stage, st.error, st.code]);
+  const sig = JSON.stringify([st.stage, st.error, st.code, st.hint]);
   if (sig === L.sig) return;
   L.sig = sig;
   const bname = st.browser || S.poll?.browser?.name || '크롬';
@@ -680,7 +680,14 @@ function renderLogin(st) {
   switch (st.stage) {
     case 'opening': status = `<div class="login-status"><span class="radar"></span><div><b>로그인 창을 여는 중…</b><small>${esc(bname)} 창이 잠시 뒤 열려요.</small></div></div>`; break;
     case 'waiting': case 'login':
-      status = `<div class="login-status"><span class="radar"></span><div><b>${esc(bname)} 창에서 Riot 계정으로 로그인해 주세요</b><small>로그인이 끝나면 창이 저절로 닫히고 여기로 돌아와요. 창이 안 보이면 Dock에서 ${esc(bname)} 아이콘을 눌러 보세요.</small></div></div>`; break;
+      if (st.hint === 'blank') {
+        status = `<div class="login-status warn"><span class="radar"></span><div><b>로그인 창이 비어 있어서 다시 불러오고 있어요…</b><small>잠시 뒤 Riot 로그인 화면이 나타나면 그대로 로그인해 주세요.</small></div></div>`;
+      } else if (st.hint === 'stuck') {
+        status = `<div class="login-status err"><div><b>로그인 창이 계속 비어 있어요</b><small>아래 ‘로그인 창 새로 고침’을 눌러 보세요. 그래도 안 되면 ‘취소’ 후 크롬을 완전히 종료(⌘Q)하고 다시 시도해 주세요.</small></div></div>`;
+      } else {
+        status = `<div class="login-status"><span class="radar"></span><div><b>${esc(bname)} 창에서 Riot 계정으로 로그인해 주세요</b><small>로그인이 끝나면 창이 저절로 닫히고 여기로 돌아와요. 창이 비어 있으면 아래 ‘로그인 창 새로 고침’을 눌러 주세요.</small></div></div>`;
+      }
+      break;
     case 'finishing': status = `<div class="login-status"><span class="radar"></span><div><b>로그인 완료! 계정 정보를 가져오는 중…</b><small>거의 다 됐어요.</small></div></div>`; break;
     case 'error': status = `<div class="login-status err"><div><b>로그인하지 못했어요</b><small>${esc(st.error || '')}</small></div></div>`; break;
     case 'cancelled': status = `<div class="login-status err"><div><b>로그인 창이 닫혔어요</b><small>다시 시도하려면 아래 버튼을 눌러 주세요.</small></div></div>`; break;
@@ -694,8 +701,12 @@ function renderLogin(st) {
     ${status}`;
   const busy = ['opening', 'waiting', 'login', 'finishing'].includes(st.stage);
   setModalActions(busy
-    ? [{ label: '취소', onClick: closeModal }]
+    ? [{ label: '취소', onClick: closeModal }, ...(st.stage !== 'finishing' ? [{ label: '로그인 창 새로 고침', onClick: reloadLoginWindow }] : [])]
     : [{ label: '닫기', onClick: closeModal }, { label: '다시 시도', primary: true, onClick: () => { closeModal(); setTimeout(() => openLogin(L.relogin || ''), 50); } }]);
+}
+
+async function reloadLoginWindow() {
+  try { await api('/api/accounts/login/reload', {}); toast('🔄 로그인 창을 다시 불러왔어요'); } catch (e) { toast('⚠️ ' + e.message); }
 }
 
 function onLoginState(st) {
