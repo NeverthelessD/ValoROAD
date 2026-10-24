@@ -708,10 +708,8 @@ func (a *Accounts) loop() {
 			}
 		}
 	}
-	a.ensurePrices(false)
 	for range time.Tick(30 * time.Second) {
 		now := time.Now()
-		a.ensurePrices(false)
 		for _, id := range a.IDs() {
 			acc := a.get(id)
 			if acc == nil {
@@ -827,68 +825,4 @@ func (app *App) handleAccountCheck(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	writeJSON(w, out)
-}
-
-var (
-	priceMu  sync.Mutex
-	priceTry time.Time
-)
-
-// ensurePrices: 라이엇 가격표가 없거나 하루가 지났으면, 로그인된 계정으로 받아요.
-// 보통은 10분에 한 번만 시도하고, 위시리스트 화면을 열면(soon) 45초 만에 다시 시도해요.
-func (a *Accounts) ensurePrices(soon bool) {
-	if app == nil || demoMode() || !app.prices.Stale() {
-		return
-	}
-	priceMu.Lock()
-	wait := 10 * time.Minute
-	if soon {
-		wait = 45 * time.Second
-	}
-	if time.Since(priceTry) < wait {
-		priceMu.Unlock()
-		return
-	}
-	priceTry = time.Now()
-	priceMu.Unlock()
-	var lastErr error
-	tried := false
-	for _, id := range a.IDs() {
-		acc := a.get(id)
-		if acc == nil || acc.Status == "expired" {
-			continue
-		}
-		for attempt := 0; attempt < 2; attempt++ {
-			s, err := a.ensureSession(acc, attempt > 0)
-			if err != nil {
-				lastErr = err
-				break
-			}
-			tried = true
-			m, err := fetchOffers(s, acc.Shard)
-			if errors.Is(err, errTokenRejected) && attempt == 0 {
-				lastErr = err
-				continue
-			}
-			if err == nil && len(m) == 0 {
-				err = errors.New("가격표가 비어 있어요")
-			}
-			if err != nil {
-				lastErr = err
-				break
-			}
-			app.prices.Set(m)
-			log.Printf("가격표 받음 (%d개, 계정 %d)", len(m), acc.Slot)
-			app.bump()
-			return
-		}
-	}
-	if !tried && lastErr == nil {
-		lastErr = errors.New("로그인된 계정이 없어요")
-	}
-	if lastErr != nil {
-		log.Printf("가격표 받기 실패: %v", lastErr)
-		app.prices.SetErr(lastErr.Error())
-		app.bump()
-	}
 }

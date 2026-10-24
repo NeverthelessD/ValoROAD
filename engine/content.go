@@ -44,7 +44,32 @@ type BundleInfo struct {
 	Img  string `json:"img"`
 }
 
+// 미리보기 (게임 안에서 아이템을 누르면 보이는 것): 레벨별 영상 · 변형(크로마)별 이미지
+type Chroma struct {
+	Name   string `json:"name"`
+	Img    string `json:"img"`
+	Swatch string `json:"swatch,omitempty"`
+	Video  string `json:"video,omitempty"`
+}
+
+type Level struct {
+	Name  string `json:"name"`
+	Item  string `json:"item"` // vfx animation finisher soundeffects … ("" = 기본)
+	Video string `json:"video,omitempty"`
+	Img   string `json:"img,omitempty"`
+}
+
+type SkinDetail struct {
+	Chromas []Chroma `json:"chromas"`
+	Levels  []Level  `json:"levels"`
+}
+
+// contentFormat: 저장 형식이 바뀌면 올려요 (예전 형식이면 같은 게임 버전이어도 다시 받아요)
+const contentFormat = 2
+
 type contentData struct {
+	Format        int                   `json:"format"`
+	Details       map[string]SkinDetail `json:"details"`
 	Version       string                `json:"version"`
 	ClientVersion string                `json:"clientVersion"`
 	Fetched       int64                 `json:"fetched"`
@@ -142,6 +167,29 @@ func (c *Content) SkinByItem(id string) *Skin {
 		return c.byID[sid]
 	}
 	return nil
+}
+
+// chromaName: "프라임 밴달 4레벨\n(변형 1 주황색)" → "변형 1 주황색", 첫 번째는 "기본"
+func chromaName(s string, i int) string {
+	if a := strings.LastIndex(s, "("); a >= 0 {
+		if b := strings.LastIndex(s, ")"); b > a {
+			return strings.TrimSpace(s[a+1 : b])
+		}
+	}
+	if i == 0 {
+		return "기본"
+	}
+	return fmt.Sprintf("변형 %d", i)
+}
+
+func (c *Content) Detail(id string) (SkinDetail, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	if c.data == nil || c.data.Details == nil {
+		return SkinDetail{}, false
+	}
+	d, ok := c.data.Details[id]
+	return d, ok
 }
 
 func (c *Content) Bundle(id string) (BundleInfo, bool) {
@@ -249,12 +297,18 @@ type vapiWeapon struct {
 		ContentTierUUID *string `json:"contentTierUuid"`
 		DisplayIcon     *string `json:"displayIcon"`
 		Chromas         []struct {
-			DisplayIcon *string `json:"displayIcon"`
-			FullRender  *string `json:"fullRender"`
+			DisplayName   string  `json:"displayName"`
+			DisplayIcon   *string `json:"displayIcon"`
+			FullRender    *string `json:"fullRender"`
+			Swatch        *string `json:"swatch"`
+			StreamedVideo *string `json:"streamedVideo"`
 		} `json:"chromas"`
 		Levels []struct {
-			UUID        string  `json:"uuid"`
-			DisplayIcon *string `json:"displayIcon"`
+			UUID          string  `json:"uuid"`
+			DisplayName   string  `json:"displayName"`
+			LevelItem     *string `json:"levelItem"`
+			DisplayIcon   *string `json:"displayIcon"`
+			StreamedVideo *string `json:"streamedVideo"`
 		} `json:"levels"`
 	} `json:"skins"`
 }
@@ -300,7 +354,7 @@ func (c *Content) Refresh(force bool) error {
 		c.setErr(err)
 		return err
 	}
-	if !force && cur != nil && cur.Version == ver.Data.Version && cur.ClientVersion == ver.Data.RiotClientVersion {
+	if !force && cur != nil && cur.Format == contentFormat && cur.Version == ver.Data.Version && cur.ClientVersion == ver.Data.RiotClientVersion {
 		c.setErr(nil)
 		return nil
 	}
@@ -342,8 +396,8 @@ func (c *Content) Refresh(force bool) error {
 	for _, w := range en.Data {
 		weaponEn[w.UUID] = w.DisplayName
 	}
-	d := &contentData{Version: ver.Data.Version, ClientVersion: ver.Data.RiotClientVersion, Fetched: time.Now().Unix(),
-		Levels: map[string]string{}, Bundles: map[string]BundleInfo{}}
+	d := &contentData{Format: contentFormat, Version: ver.Data.Version, ClientVersion: ver.Data.RiotClientVersion, Fetched: time.Now().Unix(),
+		Levels: map[string]string{}, Bundles: map[string]BundleInfo{}, Details: map[string]SkinDetail{}}
 	for _, w := range ko.Data {
 		for _, s := range w.Skins {
 			sk := Skin{ID: strings.ToLower(s.UUID), Name: s.DisplayName, Weapon: w.DisplayName, WeaponEn: weaponEn[w.UUID],
@@ -361,9 +415,20 @@ func (c *Content) Refresh(force bool) error {
 					sk.Img = str(s.Chromas[0].DisplayIcon)
 				}
 			}
+			det := SkinDetail{Chromas: []Chroma{}, Levels: []Level{}}
 			for _, l := range s.Levels {
 				d.Levels[strings.ToLower(l.UUID)] = sk.ID
+				item := strings.ToLower(strings.TrimPrefix(str(l.LevelItem), "EEquippableSkinLevelItem::"))
+				det.Levels = append(det.Levels, Level{Name: l.DisplayName, Item: item, Video: str(l.StreamedVideo), Img: str(l.DisplayIcon)})
 			}
+			for i, ch := range s.Chromas {
+				img := str(ch.FullRender)
+				if img == "" {
+					img = str(ch.DisplayIcon)
+				}
+				det.Chromas = append(det.Chromas, Chroma{Name: chromaName(ch.DisplayName, i), Img: img, Swatch: str(ch.Swatch), Video: str(ch.StreamedVideo)})
+			}
+			d.Details[sk.ID] = det
 			d.Skins = append(d.Skins, sk)
 		}
 	}

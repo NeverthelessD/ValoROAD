@@ -2,9 +2,10 @@ package main
 
 // 스킨 가격 (VP)
 //
-// 스킨 정보(valorant-api.com)에는 가격이 없어서, 라이엇 상점의 '전체 판매 목록'(store/v1/offers)에서 가격을 받아요.
-// 저장된 계정 아무거나로 하루에 한 번 받아 Support/content/prices.json 에 저장해요 (스킨 레벨 uuid → VP).
-// 목록에 없는 스킨(배틀패스 · 이벤트 보상 등)은 상점에서 팔지 않는 스킨이에요.
+// 스킨 정보(valorant-api.com)에는 가격이 없고, 라이엇의 '전체 판매 목록'(store/v1/offers)은 2025년부터 404 로 사라졌어요
+// (v1.0.1 에서 써 봤다가 사용자 맥에서 HTTP 404 확인, 2026-10-24).
+// 그래서 계정 3개의 오늘의 상점 · 밤시장 · 번들에서 본 원래 가격을 모아(Seen) 쓰고, 본 적 없는 스킨은 등급별 보통 가격을 '약'으로 보여 줘요.
+// VP 맵은 예전 가격표 자리로 남겨 두었어요(지금은 비어 있음).
 
 import (
 	"encoding/json"
@@ -144,41 +145,4 @@ func (a *App) priceOf(s Skin) (int, string) {
 		return v, "estimate"
 	}
 	return 0, "unknown"
-}
-
-// fetchOffers: 상점에서 파는 모든 아이템의 VP 가격
-func fetchOffers(s *session, shard string) (map[string]int, error) {
-	b, err := pdGet(s, shard, "GET", "/store/v1/offers/", nil)
-	if err != nil {
-		return nil, err
-	}
-	return parseOffers(b)
-}
-
-func parseOffers(b []byte) (map[string]int, error) {
-	var v struct {
-		Offers []struct {
-			OfferID string         `json:"OfferID"`
-			Cost    map[string]int `json:"Cost"`
-			Rewards []struct {
-				ItemID string `json:"ItemID"`
-			} `json:"Rewards"`
-		} `json:"Offers"`
-	}
-	if err := json.Unmarshal(b, &v); err != nil {
-		return nil, err
-	}
-	out := map[string]int{}
-	for _, o := range v.Offers {
-		vp := o.Cost[currencyVP]
-		if vp <= 0 {
-			continue
-		}
-		id := o.OfferID
-		if len(o.Rewards) > 0 && o.Rewards[0].ItemID != "" {
-			id = o.Rewards[0].ItemID
-		}
-		out[strings.ToLower(id)] = vp
-	}
-	return out, nil
 }

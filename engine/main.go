@@ -343,6 +343,7 @@ func (a *App) routes() http.Handler {
 
 	// 스킨 · 위시리스트 · 알림
 	api("/api/skins", a.handleSkins)
+	api("/api/skin", a.handleSkin)
 	api("/api/wish", a.handleWish)
 	api("/api/wishlist", a.handleWishlist)
 	api("/api/notify/pending", a.handleNotifyPending)

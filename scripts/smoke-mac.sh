@@ -59,6 +59,10 @@ check "A6 계정 2 오늘의 상점 4개 (${N2:-0})" test "${N2:-0}" = "4"
 IMG=$(js 'd["store"]["daily"][0]["img"]' < "$OUT/store2.json")
 curl -fs -m 30 -H "x-token: $(tok)" "http://127.0.0.1:$(port)/api/img?u=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$IMG")" -o "$OUT/skin.png"
 check "A7 실제 스킨 이미지를 받음" bash -c "file '$OUT/skin.png' | grep -q PNG"
+SK=$(js 'd["store"]["daily"][0]["id"]' < "$OUT/store2.json")
+api "/api/skin?id=$SK" > "$OUT/skin-detail.json"
+NLV=$(js 'sum(1 for l in d["levels"] if l.get("video"))' < "$OUT/skin-detail.json"); NCH=$(js 'len(d["chromas"])' < "$OUT/skin-detail.json")
+check "A11 미리보기 정보 (영상 있는 레벨 ${NLV:-0}개 · 변형 ${NCH:-0}개)" test "${NCH:-0}" -ge 1
 # 계정 2 의 두 번째 스킨을 위시리스트에 담아 '위시리스트 적중' 화면을 봐요
 WID=$(js 'd["store"]["daily"][1]["id"]' < "$OUT/store2.json")
 apipost /api/wish "{\"id\":\"$WID\",\"on\":true}" > /dev/null

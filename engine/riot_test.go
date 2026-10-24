@@ -112,11 +112,8 @@ func TestJosaShard(t *testing.T) {
 	}
 }
 
-func TestParseOffers(t *testing.T) {
-	m, err := parseOffers([]byte(`{"Offers":[
-	  {"OfferID":"AA","Cost":{"85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741":1775},"Rewards":[{"ItemTypeID":"e7","ItemID":"LVL1","Quantity":1}]},
-	  {"OfferID":"BB","Cost":{"e59aa87c-4cbf-517a-5983-6e81511be9b7":10},"Rewards":[{"ItemID":"RPONLY"}]}]}`))
-	if err != nil || m["lvl1"] != 1775 || len(m) != 1 {
-		t.Fatalf("%v %v", m, err)
+func TestChromaName(t *testing.T) {
+	if chromaName("프라임 밴달 4레벨\n(변형 1 주황색)", 1) != "변형 1 주황색" || chromaName("프라임 밴달", 0) != "기본" || chromaName("X", 2) != "변형 2" {
+		t.Fatal("chromaName")
 	}
 }

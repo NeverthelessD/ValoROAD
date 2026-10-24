@@ -40,7 +40,14 @@ macOS (Apple Silicon). made by. Nevertheless_D
   ① 상점 · 밤시장 · 번들(Items[].BasePrice)에서 본 원래 가격을 prices.json 'seen' 에 계속 모음(StoreData.Seen · seenPrices)
   ② 그래도 없으면 등급별 보통 가격을 '약 1,775'(priceState estimate)로, 합계도 '약'
   ③ 가격표 실패 이유를 위시리스트 화면 · /diag '가격' 줄에 표시, 위시리스트를 열면 45초 간격으로 다시 시도, 토큰 거절이면 새 토큰으로 한 번 더
-  ④ pdGet 오류에 HTTP 코드 포함. 다음 할 일: 사용자 화면의 '가격표를 받지 못한 이유' 문구로 진짜 원인 확인.
+  ④ pdGet 오류에 HTTP 코드 포함.
+- 2026-10-24 사용자: 가격표 실패 이유 = HTTP 404. **store/v1/offers 는 없어진 주소**(2025-05 무렵부터, 커뮤니티 엔드포인트 목록 댓글로도 확인).
+  대체 주소 없음 → v1.0.3: 호출을 없애고 '상점에서 본 가격(seen) + 등급별 보통 가격(약)'만 씀. 안내 문구도 그에 맞게.
+  사용자 요청: 게임처럼 아이템을 누르면 미리보기 → v1.0.3 미리보기 창: 상점 카드 · 밤시장 줄 · 검색 결과 · 위시리스트 줄을 누르면 열림.
+  레벨 버튼(LV1 기본 · 시각 효과 · 애니메이션 · 피니셔 …)을 누르면 라이엇 영상(valorant.dyn.riotcdn.net, <video> 로 바로 재생),
+  변형(크로마) 견본을 누르면 그 색의 이미지, 변형 영상이 있으면 '이 변형 영상'. 가격 · 위시 하트도 창 안에.
+  content.json 형식 2(Details: 스킨별 레벨 · 크로마) — 형식이 바뀌면 같은 게임 버전이어도 다시 받음(contentFormat). /api/skin.
+  껍데기: mediaTypesRequiringUserActionForPlayback = [] (영상이 소리와 함께 바로 재생), 전체 화면 허용.
 
 ---
 
@@ -80,7 +87,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - 상점: `POST https://pd.{shard}.a.pvp.net/store/v3/storefront/{puuid}` body `{}` (v2 GET 은 더 이상 안 씀)
   헤더: Authorization Bearer · X-Riot-Entitlements-JWT · X-Riot-ClientPlatform(base64) · X-Riot-ClientVersion(valorant-api.com/v1/version 의 riotClientVersion)
   SkinsPanelLayout.SingleItemStoreOffers(오늘의 상점, 보상 ItemID = 스킨 레벨 uuid) · FeaturedBundle.Bundles · BonusStore(밤시장)
-- 가격표: `GET https://pd.{shard}.a.pvp.net/store/v1/offers/` → Offers[].Cost[VP] · Rewards[0].ItemID (스킨 레벨 uuid)
+- ~~가격표: `GET pd.{shard}/store/v1/offers/`~~ → **404, 없어진 주소** (2026-10-24 사용자 맥에서 확인). 가격은 상점에서 본 값 + 등급별 보통 가격.
 - 지갑: `GET https://pd.{shard}.a.pvp.net/store/v1/wallet/{puuid}` — VP 85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741 ·
   RP e59aa87c-4cbf-517a-5983-6e81511be9b7 · KC 85ca954a-41f2-ce94-9b45-8ca3dd39a00d
 - 스킨 데이터: `https://valorant-api.com/v1/weapons?language=ko-KR`(+en-US 로 영어 무기 이름) · contenttiers · bundles. 버전이 바뀔 때만 다시 받아 Support/content 에 줄여서 저장.
@@ -100,7 +107,7 @@ engine/main.go         라우트 · 설정(settings.json: 테마 · 자동업데
 engine/riot.go         라이엇 연결: 쿠키 재로그인 · userinfo · 지역(PAS) · 엔타이틀먼트 · 상점 v3 · 지갑 · 쿠키 합치기
 engine/accounts.go     계정 3개 · 세션(메모리) · 상점 받기/저장(Support/stores) · 매일 오전 9시 다시 받기 · 만료/오류 상태
 engine/secrets.go      로그인 열쇠 보관: 키체인(/usr/bin/security, 넣을 때는 `security -i` 표준 입력) · 리눅스는 파일
-engine/content.go      valorant-api.com 스킨/번들/등급 → Support/content/content.json · 이미지 캐시(/api/img, media.valorant-api.com 만)
+engine/content.go      valorant-api.com 스킨/번들/등급/미리보기(레벨 영상 · 크로마) → Support/content/content.json(format 2) · 이미지 캐시(/api/img)
 engine/wishlist.go     위시리스트 · 알림 만들기(한 번만, notified.json) · /api/skins · /api/wishlist (가격 포함)
 engine/prices.go       스킨 가격표(store/v1/offers) + 상점에서 본 가격(seen) · priceOf → ok | estimate(약, 등급별) | none(상점 판매 없음) | unknown
 engine/demo.go         시험 모드(VALOROAD_DEMO=1 또는 Support/demo-mode): 가짜 계정 3개 + 실제 스킨으로 만든 상점

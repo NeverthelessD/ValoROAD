@@ -233,9 +233,6 @@ type WishView struct {
 
 func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 	s := a.Settings()
-	if a.prices.Stale() && !demoMode() {
-		go func() { defer recoverLog("prices"); a.accounts.ensurePrices(true) }()
-	}
 	where := map[string][]WhereView{}
 	for _, v := range a.accounts.Views() {
 		label := v.Name
@@ -264,4 +261,20 @@ func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 		out = append(out, wv)
 	}
 	writeJSON(w, map[string]any{"items": out, "total": total, "pricesReady": a.prices.Ready() || demoMode(), "priceError": a.prices.Err()})
+}
+
+// handleSkin: 스킨 하나의 미리보기 정보 (레벨 영상 · 변형 이미지 · 가격)
+func (a *App) handleSkin(w http.ResponseWriter, r *http.Request) {
+	sk := a.content.SkinByItem(r.URL.Query().Get("id"))
+	if sk == nil {
+		jsonError(w, 404, "스킨 정보를 찾지 못했어요")
+		return
+	}
+	det, ok := a.content.Detail(sk.ID)
+	if !ok {
+		det = SkinDetail{Chromas: []Chroma{{Name: "기본", Img: sk.Img}}, Levels: []Level{}}
+	}
+	price, ps := a.priceOf(*sk)
+	writeJSON(w, map[string]any{"skin": sk, "price": price, "priceState": ps, "wished": a.wishSet()[sk.ID],
+		"chromas": det.Chromas, "levels": det.Levels, "detailReady": ok})
 }

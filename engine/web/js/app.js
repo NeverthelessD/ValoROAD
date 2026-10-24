@@ -29,6 +29,7 @@ const S = {
   bundleIdx: 0, rev: -1, refreshing: false,
   wish: { q: '', cat: 'all', items: [], results: [], total: 0, sum: 0, pricesReady: false, priceError: '' },
   login: null, // { slot, phase: 'wait' | 'error' | 'nobridge', error }
+  pv: null, // 미리보기 { id, data, chroma, level, cvideo }
 };
 
 const TIERS = {
@@ -177,6 +178,7 @@ async function setWish(id, on) {
     for (const o of [...(S.store.daily || []), ...(S.store.night || [])]) if (o.id === id) o.wished = on;
   }
   S.wish.results.forEach((s) => { if (s.id === id) s.wished = on; });
+  if (S.pv?.data?.skin?.id === id) S.pv.data.wished = on;
   await loadWishlist();
   renderAll();
 }
@@ -276,8 +278,9 @@ function cardHTML(o) {
   const hit = o.wished;
   return `<div class="card-frame${hit ? ' hit' : ''}"><article class="card" style="--tc:${tc};--tint:${tint(o.tier)}">
     ${hit ? '<div class="hitbar">WISHLIST · 위시리스트</div>' : ''}
-    <div class="art">
+    <div class="art"${o.known ? ` data-skin="${esc(o.id)}" role="button" tabindex="0" aria-label="${esc(o.name)} 미리보기"` : ''}>
       <span class="tier"><i></i>${esc(tn)}</span>
+      ${o.known ? '<span class="pv-hint">PREVIEW ▶</span>' : ''}
       ${o.img ? `<img src="${img(o.img)}" alt="${esc(o.name)}" loading="lazy">` : ''}
       ${o.known ? `<button class="heart${hit ? ' on' : ''}" data-wish="${esc(o.id)}" data-on="${hit ? 0 : 1}" aria-pressed="${hit}" aria-label="${hit ? '위시리스트에서 빼기' : '위시리스트에 담기'}">${I.heart(hit)}</button>` : ''}
     </div>
@@ -318,7 +321,7 @@ function nightHTML(list, ends) {
   return `<section class="night" aria-label="밤시장">
     <div class="night-head"><span class="t">NIGHT MARKET</span><span class="d" title="남은 기간">D-${days}</span></div>
     <span class="muted" style="font-size:12px;margin-top:-6px">밤시장 · 할인 품목 ${list.length}개</span>
-    ${list.map((n) => `<div class="nrow${n.wished ? ' hit' : ''}" style="--tint:${tint(n.tier)}">
+    ${list.map((n) => `<div class="nrow${n.wished ? ' hit' : ''}" style="--tint:${tint(n.tier)}"${n.known ? ` data-skin="${esc(n.id)}" role="button" tabindex="0" aria-label="${esc(n.name)} 미리보기"` : ''}>
       <span class="pct">-${n.pct}%</span>
       <span class="th">${n.img ? `<img src="${img(n.img)}" alt="" loading="lazy">` : ''}</span>
       <span class="nb"><b>${esc(n.name)}${n.wished ? '<span class="hb">위시</span>' : ''}</b><span>${esc(n.weaponEn || n.weapon || '')}</span></span>
@@ -426,7 +429,7 @@ function wishSumText() {
 
 function priceNote() {
   if (S.wish.pricesReady || !S.wish.items.some((w) => w.priceState === 'estimate')) return '';
-  return `<p class="hint" style="margin:0">‘약’이 붙은 가격은 등급별 보통 가격이에요. 라이엇 가격표를 받으면 정확한 가격으로 바뀌어요.${S.wish.priceError ? ` <span style="opacity:.8">(가격표를 받지 못한 이유: ${esc(S.wish.priceError)})</span>` : ''}</p>`;
+  return `<p class="hint" style="margin:0">‘약’이 붙은 가격은 등급별 보통 가격이에요. 라이엇이 전체 가격표를 더 이상 공개하지 않아서, 계정 3개의 상점 · 밤시장 · 번들에 한 번이라도 뜬 스킨은 그때 본 정확한 가격으로 바뀌어요.</p>`;
 }
 
 function priceHTML(p, state, cls = 'wprice') {
@@ -446,8 +449,8 @@ function renderResults() {
   el.innerHTML = `<p class="hint" style="margin-bottom:10px">찾은 스킨 ${fmt(total)}개${total > results.length ? ` (앞의 ${results.length}개만 보여요 · 이름을 더 입력해 보세요)` : ''}</p>
     <div class="results">${results.map((s) => {
       const [tn, tc] = tierOf(s.tier);
-      return `<div class="rcard" style="--tint:${tint(s.tier)}"><div class="th">${s.img ? `<img src="${img(s.img)}" alt="" loading="lazy">` : ''}</div>
-        <div class="rb"><b>${esc(s.name)}</b><span><i style="display:inline-block;width:8px;height:8px;background:${tc};transform:rotate(45deg);margin-right:6px"></i>${esc(s.weaponEn)} · ${esc(tn)}</span>${priceHTML(s.price, s.priceState, 'rprice')}</div>
+      return `<div class="rcard" style="--tint:${tint(s.tier)}"><div class="th" data-skin="${esc(s.id)}" role="button" tabindex="0" aria-label="${esc(s.name)} 미리보기">${s.img ? `<img src="${img(s.img)}" alt="" loading="lazy">` : ''}<span class="pv-hint">PREVIEW ▶</span></div>
+        <div class="rb" data-skin="${esc(s.id)}"><b>${esc(s.name)}</b><span><i style="display:inline-block;width:8px;height:8px;background:${tc};transform:rotate(45deg);margin-right:6px"></i>${esc(s.weaponEn)} · ${esc(tn)}</span>${priceHTML(s.price, s.priceState, 'rprice')}</div>
         <button class="add${s.wished ? ' on' : ''}" data-wish="${esc(s.id)}" data-on="${s.wished ? 0 : 1}">${s.wished ? '✓ 담김' : '+ 담기'}</button></div>`;
     }).join('')}</div>`;
 }
@@ -473,8 +476,8 @@ function renderWishList() {
       ? `${esc(x.account)} 밤시장 · ${fmt(x.price)} VP${x.base && x.base > x.price ? ` (-${Math.round((1 - x.price / x.base) * 100)}%)` : ''}`
       : `${esc(x.account)} 상점`).join(', ');
     return `<div class="wrow${hit ? ' hit' : ''}" style="--tc:${tc};--tint:${tint(w.tier)}">
-      <div class="th">${w.img ? `<img src="${img(w.img)}" alt="" loading="lazy">` : ''}</div>
-      <div class="wb"><b>${esc(w.name)}</b><span><i></i>${esc(w.weaponEn || '')}</span></div>
+      <div class="th" data-skin="${esc(w.id)}" role="button" tabindex="0" aria-label="${esc(w.name)} 미리보기">${w.img ? `<img src="${img(w.img)}" alt="" loading="lazy">` : ''}</div>
+      <div class="wb" data-skin="${esc(w.id)}"><b>${esc(w.name)}</b><span><i></i>${esc(w.weaponEn || '')}</span></div>
       ${priceHTML(w.price, w.priceState)}
       ${hit ? `<span class="where">${I.check}<span>지금 ${where}</span></span>` : '<span class="nope">아직 안 떴어요</span>'}
       <button class="heart on" data-wish="${esc(w.id)}" data-on="0" aria-label="${esc(w.name)} 위시리스트에서 빼기">${I.heart(true)}</button>
@@ -575,6 +578,7 @@ function renderOverlay() {
   const o = $('#overlay');
   const L = S.login;
   if (S.guide) { o.innerHTML = guideHTML(); o.hidden = false; return; }
+  if (S.pv) { o.innerHTML = pvHTML(); o.hidden = false; return; }
   if (!L) { o.hidden = true; o.innerHTML = ''; return; }
   let tail = '';
   if (L.phase === 'wait') tail = `<div class="waiting"><i></i>라이엇 로그인 창에서 로그인이 끝나기를 기다리는 중…</div>
@@ -592,6 +596,72 @@ function renderOverlay() {
     ${tail}
   </div>`;
   o.hidden = false;
+}
+
+// ---------------------------------------------------------------- 미리보기 (게임에서 아이템을 누르면 보이는 것)
+const LEVEL_LABEL = {
+  '': '기본', vfx: '시각 효과', animation: '애니메이션', finisher: '피니셔', soundeffects: '사운드 효과', killbanner: '처치 배너',
+  topfrag: '탑 프래그', transformation: '변신', killeffect: '처치 효과', killcounter: '처치 카운터', randomizer: '랜덤 변화',
+  inspectandkill: '검사 · 처치', songshuffle: '음악 바꾸기', voiceover: '음성', heartbeatandmapsensor: '심장 박동 · 맵 감지',
+  fishanimation: '물고기 애니메이션', attackerdefenderswap: '공수 전환',
+};
+I.play = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5 L10.5 6 L3 10.5 Z" fill="currentColor"/></svg>';
+I.close = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+async function openPreview(id) {
+  S.pv = { id, data: null, chroma: 0, level: -1, cvideo: false };
+  renderOverlay();
+  try {
+    const d = await api(`/api/skin?id=${encodeURIComponent(id)}`);
+    if (S.pv?.id !== id) return;
+    S.pv.data = d;
+  } catch (e) {
+    if (S.pv?.id !== id) return;
+    S.pv.error = e.message;
+  }
+  renderOverlay();
+}
+
+function pvHTML() {
+  const P = S.pv;
+  const close = `<button class="pv-close" data-act="pv-close" aria-label="미리보기 닫기">${I.close}</button>`;
+  if (!P.data) {
+    return `<div class="modal pv" role="dialog" aria-modal="true" aria-label="미리보기">${close}<span class="kicker">PREVIEW</span>
+      <p class="hint">${P.error ? esc(P.error) : '미리보기를 불러오는 중…'}</p></div>`;
+  }
+  const d = P.data;
+  const sk = d.skin;
+  const [tn, tc] = tierOf(sk.tier);
+  const chromas = d.chromas?.length ? d.chromas : [{ name: '기본', img: sk.img }];
+  const ch = chromas[Math.min(P.chroma, chromas.length - 1)];
+  const lv = P.level >= 0 ? d.levels[P.level] : null;
+  const video = lv?.video || (P.cvideo ? ch.video : '');
+  const stage = video
+    ? `<video src="${esc(video)}" autoplay controls playsinline loop></video>`
+    : `<img src="${img(ch.img || sk.img)}" alt="${esc(sk.name)} ${esc(ch.name)}">`;
+  const levels = (d.levels || []).map((l, i) => `<button class="pv-chip${P.level === i ? ' on' : ''}" data-pv-level="${i}"${l.video ? '' : ' disabled title="영상이 없어요"'}>
+      <span class="lbl">LV ${i + 1}</span><span>${esc(LEVEL_LABEL[l.item] ?? '레벨 효과')}</span>${l.video ? I.play : ''}</button>`).join('');
+  const swatches = chromas.map((c, i) => `<button class="pv-sw${P.chroma === i && !lv ? ' on' : ''}" data-pv-chroma="${i}" title="${esc(c.name)}" aria-label="${esc(c.name)}">${c.swatch ? `<img src="${img(c.swatch)}" alt="">` : `<span class="lbl">${pad(i + 1)}</span>`}</button>`).join('');
+  return `<div class="modal pv" role="dialog" aria-modal="true" aria-label="${esc(sk.name)} 미리보기" style="--tc:${tc};--tint:${tint(sk.tier)}">
+    ${close}
+    <div class="pv-head">
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <span class="kicker">PREVIEW · ${esc((sk.weaponEn || '').toUpperCase())}</span>
+        <span class="pv-title">${esc(sk.name)}</span>
+        <span class="pv-tier"><i></i>${esc(tn)}${sk.weapon ? ` · ${esc(sk.weapon)}` : ''}</span>
+      </div>
+      <div class="pv-price">
+        ${priceHTML(d.price, d.priceState)}
+        <button class="heart${d.wished ? ' on' : ''}" data-wish="${esc(sk.id)}" data-on="${d.wished ? 0 : 1}" aria-pressed="${d.wished}" aria-label="${d.wished ? '위시리스트에서 빼기' : '위시리스트에 담기'}">${I.heart(d.wished)}</button>
+      </div>
+    </div>
+    <div class="pv-stage">${stage}</div>
+    ${levels ? `<div class="pv-row"><span class="pv-label">LEVELS · 레벨 (누르면 영상)</span><div class="pv-chips">${levels}</div></div>` : ''}
+    <div class="pv-row"><span class="pv-label">VARIANTS · 변형</span>
+      <div class="pv-chips">${swatches}<span class="pv-cname">${esc(lv ? '' : ch.name)}</span>
+        ${!lv && ch.video ? `<button class="pv-chip${P.cvideo ? ' on' : ''}" data-act="pv-cvideo">${I.play}<span>이 변형 영상</span></button>` : ''}</div></div>
+    ${d.detailReady === false ? '<p class="hint" style="margin:0">레벨 영상 정보를 받는 중이에요. 잠시 뒤 다시 열어 보세요.</p>' : ''}
+  </div>`;
 }
 
 function guideHTML() {
@@ -660,8 +730,12 @@ async function refreshStore() {
 }
 
 document.addEventListener('click', async (e) => {
-  const t = e.target.closest('button, [data-view-go]');
+  if (e.target.id === 'overlay' && S.pv) { S.pv = null; renderOverlay(); return; }
+  const t = e.target.closest('button, [data-view-go], [data-skin]');
   if (!t) return;
+  if (t.dataset.skin && t.tagName !== 'BUTTON') { openPreview(t.dataset.skin); return; }
+  if (t.dataset.pvLevel) { S.pv.level = +t.dataset.pvLevel; S.pv.cvideo = false; renderOverlay(); return; }
+  if (t.dataset.pvChroma) { S.pv.chroma = +t.dataset.pvChroma; S.pv.level = -1; S.pv.cvideo = false; renderOverlay(); return; }
   if (t.classList.contains('tab')) { S.view = t.dataset.view; renderAll(); if (S.view === 'wish') { loadWishlist(); searchSkins(); } return; }
   if (t.dataset.viewGo) { S.view = t.dataset.viewGo; renderAll(); return; }
   if (t.dataset.acc) { selectAccount(t.dataset.acc); return; }
@@ -684,6 +758,8 @@ document.addEventListener('click', async (e) => {
     case 'login-close': S.login = null; renderOverlay(); break;
     case 'guide': S.guide = true; renderOverlay(); break;
     case 'guide-close': S.guide = false; renderOverlay(); break;
+    case 'pv-close': S.pv = null; renderOverlay(); break;
+    case 'pv-cvideo': S.pv.cvideo = !S.pv.cvideo; renderOverlay(); break;
     case 'testnote': await api('/api/notify/test', {}); toast(bridge ? '잠시 뒤 맥 알림이 와요' : '맥 앱에서 알림이 와요'); break;
     case 'diag': await api('/api/open-diag', {}); break;
     case 'quit':
@@ -717,8 +793,14 @@ document.addEventListener('input', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset?.skin && e.target.tagName !== 'BUTTON') {
+    e.preventDefault();
+    openPreview(e.target.dataset.skin);
+    return;
+  }
   if (e.key === 'Escape') {
     if (S.guide) { S.guide = false; renderOverlay(); }
+    else if (S.pv) { S.pv = null; renderOverlay(); }
     else if (S.login && S.login.phase !== 'wait' && S.login.phase !== 'saving') { S.login = null; renderOverlay(); }
   }
   if (!e.metaKey) return;

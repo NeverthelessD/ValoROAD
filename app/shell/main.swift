@@ -653,6 +653,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
     func makeWindow() {
         let cfg = WKWebViewConfiguration()
         cfg.applicationNameForUserAgent = "ValoROADShell/\(engine.build)"
+        // 미리보기 영상(레벨 효과 · 사운드)이 누르자마자 소리와 함께 나오게 해요
+        cfg.mediaTypesRequiringUserActionForPlayback = []
+        if #available(macOS 12.3, *) { cfg.preferences.isElementFullscreenEnabled = true }
         let bridge = Bridge()
         bridge.app = self
         cfg.userContentController.addScriptMessageHandler(bridge, contentWorld: .page, name: "valoroad")
