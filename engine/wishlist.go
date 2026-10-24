@@ -158,7 +158,9 @@ func (a *App) handleNotifyTest(w http.ResponseWriter, r *http.Request) {
 
 type SkinView struct {
 	Skin
-	Wished bool `json:"wished"`
+	Wished     bool   `json:"wished"`
+	Price      int    `json:"price"`
+	PriceState string `json:"priceState"`
 }
 
 func (a *App) handleSkins(w http.ResponseWriter, r *http.Request) {
@@ -174,7 +176,8 @@ func (a *App) handleSkins(w http.ResponseWriter, r *http.Request) {
 		if i >= limit {
 			break
 		}
-		out = append(out, SkinView{Skin: s, Wished: wish[s.ID]})
+		price, ps := a.priceOf(s)
+		out = append(out, SkinView{Skin: s, Wished: wish[s.ID], Price: price, PriceState: ps})
 	}
 	writeJSON(w, map[string]any{"skins": out, "total": len(all), "ready": a.content.Ready()})
 }
@@ -216,12 +219,16 @@ type WhereView struct {
 	Account string `json:"account"`
 	Slot    int    `json:"slot"`
 	Kind    string `json:"kind"` // daily | night
+	Price   int    `json:"price"`
+	Base    int    `json:"base,omitempty"`
 }
 
 type WishView struct {
 	Skin
-	Known bool        `json:"known"`
-	Where []WhereView `json:"where"`
+	Known      bool        `json:"known"`
+	Where      []WhereView `json:"where"`
+	Price      int         `json:"price"`
+	PriceState string      `json:"priceState"`
 }
 
 func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
@@ -233,10 +240,11 @@ func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 			label += "#" + v.Tag
 		}
 		for _, h := range v.Hits {
-			where[h.Skin] = append(where[h.Skin], WhereView{Account: label, Slot: v.Slot, Kind: h.Kind})
+			where[h.Skin] = append(where[h.Skin], WhereView{Account: label, Slot: v.Slot, Kind: h.Kind, Price: h.Price, Base: h.Base})
 		}
 	}
 	out := []WishView{}
+	total := 0
 	for _, id := range s.Wish {
 		wv := WishView{Where: where[id]}
 		if wv.Where == nil {
@@ -244,10 +252,13 @@ func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 		}
 		if sk := a.content.SkinByItem(id); sk != nil {
 			wv.Skin, wv.Known = *sk, true
+			wv.Price, wv.PriceState = a.priceOf(*sk)
 		} else {
 			wv.Skin = Skin{ID: id, Name: "스킨 정보를 불러오는 중"}
+			wv.PriceState = "unknown"
 		}
+		total += wv.Price
 		out = append(out, wv)
 	}
-	writeJSON(w, map[string]any{"items": out})
+	writeJSON(w, map[string]any{"items": out, "total": total, "pricesReady": a.prices.Ready() || demoMode()})
 }

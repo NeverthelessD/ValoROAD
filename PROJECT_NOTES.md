@@ -31,6 +31,10 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - 2026-10-24 v1.0.0 제작: 엔진 · 화면 · 껍데기 · 아이콘 · 가이드. 리눅스 데모 모드 + Playwright 로 상점(다크/라이트) · 위시리스트 · 설정 확인.
   맥 빌드 서버 26/26 통과(R 라이엇 도우미 303 → 로그인 페이지, K 키체인, N 알림, A 화면 · 실제 스킨 이미지, B~G 수명). 릴리스 v1.0.0.
   남은 것: 사용자 맥에서 실제 라이엇 로그인 · 상점 · 자동 로그인(다음 날) · 알림 허용 확인.
+- 2026-10-24 사용자: 1.0.0 실행 잘 됨. 요청 → v1.0.1 위시리스트에 가격(VP) 표시.
+  engine/prices.go: 라이엇 `GET pd.{shard}/store/v1/offers/` (전체 판매 목록, 레벨 uuid → VP) 를 로그인된 계정으로 하루 한 번 받아
+  Support/content/prices.json 에 저장. 위시리스트 줄 · 검색 결과 카드에 가격, 제목 아래 '모두 합쳐 N VP', 밤시장에 있으면 할인 가격.
+  목록에 없는 스킨은 '상점 판매 없음'(배틀패스 · 이벤트), 가격표를 아직 못 받았으면 '가격 확인 중'. 시험 모드는 등급별 기본 가격.
 
 ---
 
@@ -70,6 +74,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - 상점: `POST https://pd.{shard}.a.pvp.net/store/v3/storefront/{puuid}` body `{}` (v2 GET 은 더 이상 안 씀)
   헤더: Authorization Bearer · X-Riot-Entitlements-JWT · X-Riot-ClientPlatform(base64) · X-Riot-ClientVersion(valorant-api.com/v1/version 의 riotClientVersion)
   SkinsPanelLayout.SingleItemStoreOffers(오늘의 상점, 보상 ItemID = 스킨 레벨 uuid) · FeaturedBundle.Bundles · BonusStore(밤시장)
+- 가격표: `GET https://pd.{shard}.a.pvp.net/store/v1/offers/` → Offers[].Cost[VP] · Rewards[0].ItemID (스킨 레벨 uuid)
 - 지갑: `GET https://pd.{shard}.a.pvp.net/store/v1/wallet/{puuid}` — VP 85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741 ·
   RP e59aa87c-4cbf-517a-5983-6e81511be9b7 · KC 85ca954a-41f2-ce94-9b45-8ca3dd39a00d
 - 스킨 데이터: `https://valorant-api.com/v1/weapons?language=ko-KR`(+en-US 로 영어 무기 이름) · contenttiers · bundles. 버전이 바뀔 때만 다시 받아 Support/content 에 줄여서 저장.
@@ -90,7 +95,8 @@ engine/riot.go         라이엇 연결: 쿠키 재로그인 · userinfo · 지�
 engine/accounts.go     계정 3개 · 세션(메모리) · 상점 받기/저장(Support/stores) · 매일 오전 9시 다시 받기 · 만료/오류 상태
 engine/secrets.go      로그인 열쇠 보관: 키체인(/usr/bin/security, 넣을 때는 `security -i` 표준 입력) · 리눅스는 파일
 engine/content.go      valorant-api.com 스킨/번들/등급 → Support/content/content.json · 이미지 캐시(/api/img, media.valorant-api.com 만)
-engine/wishlist.go     위시리스트 · 알림 만들기(한 번만, notified.json) · /api/skins · /api/wishlist
+engine/wishlist.go     위시리스트 · 알림 만들기(한 번만, notified.json) · /api/skins · /api/wishlist (가격 포함)
+engine/prices.go       스킨 가격표(store/v1/offers) · priceOf → ok | none(상점 판매 없음) | unknown
 engine/demo.go         시험 모드(VALOROAD_DEMO=1 또는 Support/demo-mode): 가짜 계정 3개 + 실제 스킨으로 만든 상점
 engine/supervise.go · diag.go · update.go   MSROAD 와 같음 (지킴이 · 진단 /diag · 자동 업데이트)
 engine/web/            index.html · css/app.css(확정 디자인 토큰) · js/app.js(상점 · 위시리스트 · 설정 · 로그인 안내) · fonts/(OFL)

@@ -170,9 +170,11 @@ func (a *Accounts) IDs() []string {
 // ---------------------------------------------------------------- 화면용
 
 type HitView struct {
-	Skin string `json:"skin"`
-	Name string `json:"name"`
-	Kind string `json:"kind"` // daily | night
+	Skin  string `json:"skin"`
+	Name  string `json:"name"`
+	Kind  string `json:"kind"` // daily | night
+	Price int    `json:"price"`
+	Base  int    `json:"base,omitempty"`
 }
 
 type AccountView struct {
@@ -208,14 +210,14 @@ func (a *Accounts) Views() []AccountView {
 			if st.DailyEnds > now {
 				for _, o := range st.Daily {
 					if s := a.content.SkinByItem(o.Item); s != nil && wish[s.ID] {
-						v.Hits = append(v.Hits, HitView{Skin: s.ID, Name: s.Name, Kind: "daily"})
+						v.Hits = append(v.Hits, HitView{Skin: s.ID, Name: s.Name, Kind: "daily", Price: o.Price})
 					}
 				}
 			}
 			if nightOK && st.NightEnds > now {
 				for _, o := range st.Night {
 					if s := a.content.SkinByItem(o.Item); s != nil && wish[s.ID] {
-						v.Hits = append(v.Hits, HitView{Skin: s.ID, Name: s.Name, Kind: "night"})
+						v.Hits = append(v.Hits, HitView{Skin: s.ID, Name: s.Name, Kind: "night", Price: o.Price, Base: o.Base})
 					}
 				}
 			}
@@ -576,6 +578,15 @@ func (a *Accounts) fetchStore(acc *Account) (*StoreData, error) {
 		if w, werr := fetchWallet(s, acc.Shard, acc.PUUID); werr == nil {
 			wallet = w
 		}
+		if app != nil && app.prices.Stale() {
+			if m, perr := fetchOffers(s, acc.Shard); perr == nil && len(m) > 0 {
+				app.prices.Set(m)
+				log.Printf("가격표 받음 (%d개)", len(m))
+				app.bump()
+			} else if perr != nil {
+				log.Printf("가격표 받기 실패: %v", perr)
+			}
+		}
 		break
 	}
 	if sf == nil {
@@ -675,8 +686,10 @@ func (a *Accounts) loop() {
 			}
 		}
 	}
+	a.ensurePrices()
 	for range time.Tick(30 * time.Second) {
 		now := time.Now()
+		a.ensurePrices()
 		for _, id := range a.IDs() {
 			acc := a.get(id)
 			if acc == nil {
@@ -792,4 +805,33 @@ func (app *App) handleAccountCheck(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	writeJSON(w, out)
+}
+
+var priceTry time.Time
+
+// ensurePrices: 가격표가 없거나 하루가 지났으면, 로그인된 계정 하나로 받아요 (10분에 한 번만 시도)
+func (a *Accounts) ensurePrices() {
+	if app == nil || demoMode() || !app.prices.Stale() || time.Since(priceTry) < 10*time.Minute {
+		return
+	}
+	priceTry = time.Now()
+	for _, id := range a.IDs() {
+		acc := a.get(id)
+		if acc == nil || acc.Status == "expired" {
+			continue
+		}
+		s, err := a.ensureSession(acc, false)
+		if err != nil {
+			continue
+		}
+		m, err := fetchOffers(s, acc.Shard)
+		if err != nil || len(m) == 0 {
+			log.Printf("가격표 받기 실패: %v", err)
+			continue
+		}
+		app.prices.Set(m)
+		log.Printf("가격표 받음 (%d개)", len(m))
+		app.bump()
+		return
+	}
 }

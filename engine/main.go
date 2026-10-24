@@ -57,6 +57,7 @@ type App struct {
 	content  *Content
 	accounts *Accounts
 	notes    *Notifier
+	prices   *Prices
 
 	rev      atomic.Int64 // 화면이 다시 읽어야 할 때마다 늘어나요
 	lastSeen atomic.Int64
@@ -104,6 +105,7 @@ func main() {
 	app.upd = NewUpdater(support)
 	app.content = NewContent(support)
 	app.notes = NewNotifier(support)
+	app.prices = NewPrices(support)
 	app.accounts = NewAccounts(support, app.content)
 
 	go heartbeat(support)

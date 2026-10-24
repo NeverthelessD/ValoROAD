@@ -102,3 +102,12 @@ func TestJosaShard(t *testing.T) {
 		t.Fatal("shard")
 	}
 }
+
+func TestParseOffers(t *testing.T) {
+	m, err := parseOffers([]byte(`{"Offers":[
+	  {"OfferID":"AA","Cost":{"85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741":1775},"Rewards":[{"ItemTypeID":"e7","ItemID":"LVL1","Quantity":1}]},
+	  {"OfferID":"BB","Cost":{"e59aa87c-4cbf-517a-5983-6e81511be9b7":10},"Rewards":[{"ItemID":"RPONLY"}]}]}`))
+	if err != nil || m["lvl1"] != 1775 || len(m) != 1 {
+		t.Fatalf("%v %v", m, err)
+	}
+}

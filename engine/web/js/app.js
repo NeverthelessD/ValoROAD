@@ -27,7 +27,7 @@ async function api(path, body) {
 const S = {
   view: 'store', state: null, active: null, store: null, storeLoading: false, storeErr: '',
   bundleIdx: 0, rev: -1, refreshing: false,
-  wish: { q: '', cat: 'all', items: [], results: [], total: 0 },
+  wish: { q: '', cat: 'all', items: [], results: [], total: 0, sum: 0, pricesReady: false },
   login: null, // { slot, phase: 'wait' | 'error' | 'nobridge', error }
 };
 
@@ -148,6 +148,8 @@ async function loadWishlist() {
   try {
     const r = await api('/api/wishlist');
     S.wish.items = r.items || [];
+    S.wish.sum = r.total || 0;
+    S.wish.pricesReady = !!r.pricesReady;
   } catch { /* ignore */ }
   if (S.view === 'wish') renderWishList();
 }
@@ -385,7 +387,7 @@ function renderWish() {
     <div style="display:flex;flex-direction:column;gap:6px">
       <span class="kicker">3개 계정 모두 확인</span>
       <h1 class="h1">MY WISHLIST <span style="color:var(--red-text)" id="wishCount">${pad(S.wish.items.length)}</span></h1>
-      <span class="h1-sub">내 위시리스트</span>
+      <span class="h1-sub">내 위시리스트<span id="wishSum">${wishSumText()}</span></span>
     </div>
     <div class="searchbar">
       <label class="search">${I.search}<span class="sr">스킨 이름 검색</span>
@@ -413,6 +415,18 @@ function renderWish() {
   renderWishList();
 }
 
+function wishSumText() {
+  const n = S.wish.items.filter((w) => w.price > 0).length;
+  return S.wish.pricesReady && n ? ` · 모두 합쳐 ${fmt(S.wish.sum)} VP` : '';
+}
+
+function priceHTML(p, state, cls = 'wprice') {
+  if (p > 0) return `<span class="${cls}">${I.vp()}<b>${fmt(p)}</b></span>`;
+  const t = state === 'none' ? '상점 판매 없음' : '가격 확인 중';
+  const tip = state === 'none' ? '배틀패스 · 이벤트 보상처럼 상점에서 팔지 않는 스킨이에요' : '계정이 로그인되면 라이엇 상점 가격표를 받아 와요';
+  return `<span class="${cls} none" title="${tip}">${t}</span>`;
+}
+
 function renderResults() {
   const el = $('#results');
   if (!el) return;
@@ -423,7 +437,7 @@ function renderResults() {
     <div class="results">${results.map((s) => {
       const [tn, tc] = tierOf(s.tier);
       return `<div class="rcard" style="--tint:${tint(s.tier)}"><div class="th">${s.img ? `<img src="${img(s.img)}" alt="" loading="lazy">` : ''}</div>
-        <div class="rb"><b>${esc(s.name)}</b><span><i style="display:inline-block;width:8px;height:8px;background:${tc};transform:rotate(45deg);margin-right:6px"></i>${esc(s.weaponEn)} · ${esc(tn)}</span></div>
+        <div class="rb"><b>${esc(s.name)}</b><span><i style="display:inline-block;width:8px;height:8px;background:${tc};transform:rotate(45deg);margin-right:6px"></i>${esc(s.weaponEn)} · ${esc(tn)}</span>${priceHTML(s.price, s.priceState, 'rprice')}</div>
         <button class="add${s.wished ? ' on' : ''}" data-wish="${esc(s.id)}" data-on="${s.wished ? 0 : 1}">${s.wished ? '✓ 담김' : '+ 담기'}</button></div>`;
     }).join('')}</div>`;
 }
@@ -433,6 +447,8 @@ function renderWishList() {
   if (!el) return;
   const c = $('#wishCount');
   if (c) c.textContent = pad(S.wish.items.length);
+  const sum = $('#wishSum');
+  if (sum) sum.textContent = wishSumText();
   const items = S.wish.items;
   if (!items.length) {
     el.innerHTML = `<p class="hint">아직 담은 스킨이 없어요. 위에서 스킨을 찾아 담거나, 상점 카드의 하트를 눌러 보세요.</p>`;
@@ -441,11 +457,14 @@ function renderWishList() {
   el.innerHTML = `<div class="wlist">${items.map((w) => {
     const [, tc] = tierOf(w.tier);
     const hit = w.where.length > 0;
-    const where = w.where.map((x) => `${esc(x.account)} ${x.kind === 'night' ? '밤시장' : '상점'}`).join(', ');
+    const where = w.where.map((x) => x.kind === 'night'
+      ? `${esc(x.account)} 밤시장 · ${fmt(x.price)} VP${x.base && x.base > x.price ? ` (-${Math.round((1 - x.price / x.base) * 100)}%)` : ''}`
+      : `${esc(x.account)} 상점`).join(', ');
     return `<div class="wrow${hit ? ' hit' : ''}" style="--tc:${tc};--tint:${tint(w.tier)}">
       <div class="th">${w.img ? `<img src="${img(w.img)}" alt="" loading="lazy">` : ''}</div>
       <div class="wb"><b>${esc(w.name)}</b><span><i></i>${esc(w.weaponEn || '')}</span></div>
-      ${hit ? `<span class="where">${I.check}${where}에 있음 · 오늘</span>` : '<span class="nope">아직 안 떴어요</span>'}
+      ${priceHTML(w.price, w.priceState)}
+      ${hit ? `<span class="where">${I.check}<span>지금 ${where}</span></span>` : '<span class="nope">아직 안 떴어요</span>'}
       <button class="heart on" data-wish="${esc(w.id)}" data-on="0" aria-label="${esc(w.name)} 위시리스트에서 빼기">${I.heart(true)}</button>
     </div>`;
   }).join('')}</div>`;
