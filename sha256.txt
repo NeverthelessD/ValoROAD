@@ -1,0 +1,2 @@
+7e7918214cdb3ca7821efb6b0ef23ec5f69475442991da402ca32f259f4b53b7  /Users/runner/work/ValoROAD/ValoROAD/ci-out/ValoROAD-1.0.3.zip
+6a9b2faf64732b2e8736879c751c8a97ea7c8e1f4ef546920e9b27af86a83453  /Users/runner/work/ValoROAD/ValoROAD/ci-out/ValoROAD-first-install.zip

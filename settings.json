@@ -1,0 +1,12 @@
+{
+  "appearance": "dark",
+  "autoUpdate": false,
+  "wishAlert": true,
+  "nightAlert": true,
+  "sound": false,
+  "wish": [
+    "e13afe1e-4734-2094-fee8-9db016e4d54a"
+  ],
+  "active": "demoslot2",
+  "ui": {}
+}

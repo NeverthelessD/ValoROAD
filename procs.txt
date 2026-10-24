@@ -1,0 +1,5 @@
+--- A 실행 중
+ 2250     1 S    /Applications/ValoROAD.app/Contents/MacOS/ValoROAD
+ 2267  2250 S    /Users/runner/Library/Application Support/ValoROAD/bin/valoroad-engine
+ 2268  2267 S    /Users/runner/Library/Application Support/ValoROAD/bin/valoroad-engine
+--- D 종료 뒤

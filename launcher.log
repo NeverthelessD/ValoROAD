@@ -1,0 +1,86 @@
+10-24 13:02:02 [앱 2250] 시작 v1.0.3 · macOS 버전 15.7.9(빌드 24G830) · /Applications/ValoROAD.app
+10-24 13:02:02 [앱 2250] 엔진 준비 (v1.0.3)
+10-24 13:02:02 [앱 2250] 엔진 켬 (지킴이 pid 2267)
+10-24 13:02:03 [지킴이 2267] 시작 · 엔진 1.0.3 · darwin/arm64 · Dock 앱(ValoROAD.app)이 켬
+10-24 13:02:03 [지킴이 2267] 엔진 켬 (pid 2268, 포트 자동)
+10-24 13:02:03 [앱 2250] 엔진 준비됨 (포트 47931)
+10-24 13:02:33 [앱 2250] 알림 보냄: ValoROAD 알림 시험
+10-24 13:02:35 [지킴이 2267] ⚠️ 엔진이 갑자기 꺼졌어요: 종료 코드 2, 32s 동안 실행
+----- 엔진 마지막 출력 -----
+2026/10/24 13:02:03 ValoROAD 1.0.3 listening on 47931 (pid 2268, 지킴이 true, 데모 true)
+2026/10/24 13:02:03 content: v13.08.00.5715960 · 스킨 1432개 · 번들 328개
+2026/10/24 13:02:03 account 1: 상점 받음 (오늘의 상점 4 · 밤시장 6 · 번들 1)
+2026/10/24 13:02:03 account 2: 상점 받음 (오늘의 상점 4 · 밤시장 6 · 번들 1)
+2026/10/24 13:02:03 account 3: 상점 받음 (오늘의 상점 4 · 밤시장 6 · 번들 1)
+SIGSEGV: segmentation violation
+PC=0x1991bd3cc m=0 sigcode=2 addr=0x0
+
+goroutine 0 gp=0x102b72300 m=0 mp=0x102b72d80 [idle]:
+runtime.pthread_cond_wait(0x102b732f0, 0x102b732b0)
+	runtime/sys_darwin.go:547 +0x20 fp=0x16db5d720 sp=0x16db5d6f0 pc=0x1022f9e20
+runtime.semasleep(0xffffffffffffffff)
+	runtime/os_darwin.go:72 +0x84 fp=0x16db5d780 sp=0x16db5d720 pc=0x1022d5204
+runtime.notesleep(0x102b72ed8)
+	runtime/lock_sema.go:62 +0xb8 fp=0x16db5d7c0 sp=0x16db5d780 pc=0x1022b1198
+runtime.mPark(...)
+	runtime/proc.go:1919
+runtime.stopm()
+	runtime/proc.go:2950 +0x84 fp=0x16db5d7f0 sp=0x16db5d7c0 pc=0x1022dfff4
+runtime.findRunnable()
+	runtime/proc.go:3699 +0x1030 fp=0x16db5d960 sp=0x16db5d7f0 pc=0x1022e1e20
+runtime.schedule()
+	runtime/proc.go:4072 +0x94 fp=0x16db5d9a0 sp=0x16db5d960 pc=0x1022e32a4
+runtime.park_m(0x140000828c0)
+	runtime/proc.go:4201 +0x2b0 fp=0x16db5da00 sp=0x16db5d9a0 pc=0x1022e3780
+runtime.mcall()
+	runtime/asm_arm64.s:193 +0x54 fp=0x16db5da10 sp=0x16db5da00 pc=0x102313504
+
+goroutine 1 gp=0x140000021c0 m=nil [IO wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+… (460줄 생략) …
+r26     0x5d00
+r27     0x102b5e000
+r28     0x102b72300
+r29     0x16db5d680
+lr      0x1991fc09c
+sp      0x16db5d5f0
+pc      0x1991bd3cc
+fault   0x0
+----------------------------
+10-24 13:02:35 [지킴이 2267] 엔진 켬 (pid 3082, 포트 47931)
+10-24 13:02:39 [앱 2250] 종료: 엔진을 끄는 중
+10-24 13:02:39 [지킴이 2267] 엔진이 정상적으로 끝났어요 (4s 동안 실행)
+10-24 13:02:39 [앱 2250] 종료 완료
+10-24 13:02:40 [앱 3218] 시작 v1.0.3 · macOS 버전 15.7.9(빌드 24G830) · /Applications/ValoROAD.app
+10-24 13:02:40 [앱 3218] 엔진 켬 (지킴이 pid 3223)
+10-24 13:02:40 [앱 3218] 알림 허용: false (Notifications are not allowed for this application)
+10-24 13:02:40 [지킴이 3223] 시작 · 엔진 1.0.3 · darwin/arm64 · Dock 앱(ValoROAD.app)이 켬
+10-24 13:02:40 [지킴이 3223] 엔진 켬 (pid 3225, 포트 자동)
+10-24 13:02:40 [앱 3218] 엔진 준비됨 (포트 47931)
+10-24 13:02:41 [지킴이 3223] 엔진이 정상적으로 끝났어요 (1s 동안 실행)
+10-24 13:02:41 [앱 3218] 엔진이 끝나서 앱도 닫아요 (코드 0)
+10-24 13:02:41 [앱 3257] 시작 v1.0.3 · macOS 버전 15.7.9(빌드 24G830) · /Applications/ValoROAD.app
+10-24 13:02:41 [앱 3257] 엔진 켬 (지킴이 pid 3265)
+10-24 13:02:41 [앱 3257] 알림 허용: false (Notifications are not allowed for this application)
+10-24 13:02:41 [지킴이 3265] 시작 · 엔진 1.0.3 · darwin/arm64 · Dock 앱(ValoROAD.app)이 켬
+10-24 13:02:41 [지킴이 3265] 엔진 켬 (pid 3267, 포트 자동)
+10-24 13:02:41 [앱 3257] 엔진 준비됨 (포트 47931)
+10-24 13:02:43 [지킴이 3265] ValoROAD 앱이 사라짐 → 엔진을 끄고 지킴이도 끝냅니다
+10-24 13:02:43 [지킴이 3265] 엔진을 껐어요 (신호 terminated 로 꺼짐)
+10-24 13:02:44 [앱 3422] 시작 v1.0.3 · macOS 버전 15.7.9(빌드 24G830) · /Applications/ValoROAD.app
+10-24 13:02:44 [앱 3422] 알림 허용: false (Notifications are not allowed for this application)
+10-24 13:02:44 [앱 3422] 엔진 켬 (지킴이 pid 3431)
+10-24 13:02:44 [지킴이 3431] 시작 · 엔진 1.0.3 · darwin/arm64 · Dock 앱(ValoROAD.app)이 켬
+10-24 13:02:44 [지킴이 3431] 엔진 켬 (pid 3432, 포트 자동)
+10-24 13:02:44 [앱 3422] 엔진 준비됨 (포트 47931)
+10-24 13:02:44 [지킴이 3431] 엔진이 정상적으로 끝났어요 (1s 동안 실행)
+10-24 13:02:44 [앱 3422] 새 버전으로 다시 열어요
+10-24 13:02:45 [앱 3450] 시작 v1.0.3 · macOS 버전 15.7.9(빌드 24G830) · /Applications/ValoROAD.app
+10-24 13:02:45 [앱 3450] 엔진 켬 (지킴이 pid 3452)
+10-24 13:02:45 [앱 3450] 알림 허용: false (Notifications are not allowed for this application)
+10-24 13:02:45 [지킴이 3452] 시작 · 엔진 1.0.3 · darwin/arm64 · Dock 앱(ValoROAD.app)이 켬
+10-24 13:02:45 [지킴이 3452] 엔진 켬 (pid 3453, 포트 자동)
+10-24 13:02:45 [앱 3450] 엔진 준비됨 (포트 47931)
+10-24 13:02:47 [앱 3450] 종료: 엔진을 끄는 중
+10-24 13:02:48 [지킴이 3452] 엔진이 정상적으로 끝났어요 (3s 동안 실행)
+10-24 13:02:48 [앱 3450] 종료 완료

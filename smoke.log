@@ -1,0 +1,70 @@
+▶ 준비: 앱 설치 · 시험 모드 · 설정
+▶ R. 라이엇 연결 도우미 (앱 없이 바로 실행)
+status=303 location=https://authenticate.riotgames.com/login?client_id=play-valorant-web-prod&nonce=
+PASS  R1 도우미가 라이엇 로그인 주소에 연결 (상태 303 → https://authenticate.riotgames.com/login?client_id=play-valorant-web-prod&nonce=)
+PASS  R2 로그인하지 않은 상태는 토큰을 주지 않음
+▶ A. 켜기 · 화면
+PASS  A1 앱을 열면 엔진이 준비됨
+PASS  A2 엔진이 Dock 앱 방식으로 켜짐(shell=native)
+PASS  A3 주소가 47931
+PASS  A4 스킨 정보를 받음 (스킨 1432개)
+PASS  A5 시험 계정 3개 (3)
+PASS  A6 계정 2 오늘의 상점 4개 (4)
+PASS  A7 실제 스킨 이미지를 받음
+PASS  A11 미리보기 정보 (영상 있는 레벨 1개 · 변형 1개)
+PASS  A8 위시리스트 스킨이 상점에 뜬 것을 앎 (1개)
+PASS  A9 화면이 앱 창(WKWebView)에서 열림
+PASS  A10 엔진이 ValoROAD 앱의 자식 (앱 2250 → 지킴이 2267 → 엔진 2268)
+▶ K. 키체인 보관 · 엔진의 라이엇 연결 방식
+{"ok":true,"store":"키체인"}
+PASS  K1 키체인에 넣고 · 꺼내고 · 지움
+PASS  K2 엔진이 앱 도우미로 라이엇에 연결
+▶ N. 알림 (엔진 → 앱 → 맥 알림 센터)
+PASS  N1 앱이 엔진의 알림을 가져가 맥 알림으로 보냄 (알림 보냄)
+▶ B. Dock 아이콘 다시 누르기(reopen)
+PASS  B1 다시 열기 뒤에도 앱·엔진 그대로
+▶ C. 엔진이 고장으로 꺼지면 지킴이가 다시 켬
+PASS  C1 엔진 다시 켜짐
+PASS  C2 앱은 그대로
+PASS  C3 다시 켜진 엔진도 같은 주소
+▶ D. 앱 종료(⌘Q) → 엔진까지 모두 꺼짐
+PASS  D1 앱·엔진 모두 꺼짐
+▶ E. 화면의 '종료' 버튼(= /api/quit) → 앱도 꺼짐
+PASS  E1 앱·엔진 모두 꺼짐
+▶ F. 앱이 강제로 꺼지면 엔진도 스스로 꺼짐
+PASS  F1 남은 엔진 없음
+▶ G. 업데이트 뒤 다시 열기 (/api/update/restart)
+PASS  G1 새로 열린 앱이 엔진을 켬
+PASS  G2 앱이 새로 열림 (3422 → 3450)
+PASS  G3 앱 하나만 떠 있음 (1개)
+PASS  G4 끝나면 모두 꺼짐
+▶ 기록 모으기
+
+== 결과 ==
+PASS  R1 도우미가 라이엇 로그인 주소에 연결 (상태 303 → https://authenticate.riotgames.com/login?client_id=play-valorant-web-prod&nonce=)
+PASS  R2 로그인하지 않은 상태는 토큰을 주지 않음
+PASS  A1 앱을 열면 엔진이 준비됨
+PASS  A2 엔진이 Dock 앱 방식으로 켜짐(shell=native)
+PASS  A3 주소가 47931
+PASS  A4 스킨 정보를 받음 (스킨 1432개)
+PASS  A5 시험 계정 3개 (3)
+PASS  A6 계정 2 오늘의 상점 4개 (4)
+PASS  A7 실제 스킨 이미지를 받음
+PASS  A11 미리보기 정보 (영상 있는 레벨 1개 · 변형 1개)
+PASS  A8 위시리스트 스킨이 상점에 뜬 것을 앎 (1개)
+PASS  A9 화면이 앱 창(WKWebView)에서 열림
+PASS  A10 엔진이 ValoROAD 앱의 자식 (앱 2250 → 지킴이 2267 → 엔진 2268)
+PASS  K1 키체인에 넣고 · 꺼내고 · 지움
+PASS  K2 엔진이 앱 도우미로 라이엇에 연결
+PASS  N1 앱이 엔진의 알림을 가져가 맥 알림으로 보냄 (알림 보냄)
+PASS  B1 다시 열기 뒤에도 앱·엔진 그대로
+PASS  C1 엔진 다시 켜짐
+PASS  C2 앱은 그대로
+PASS  C3 다시 켜진 엔진도 같은 주소
+PASS  D1 앱·엔진 모두 꺼짐
+PASS  E1 앱·엔진 모두 꺼짐
+PASS  F1 남은 엔진 없음
+PASS  G1 새로 열린 앱이 엔진을 켬
+PASS  G2 앱이 새로 열림 (3422 → 3450)
+PASS  G3 앱 하나만 떠 있음 (1개)
+PASS  G4 끝나면 모두 꺼짐
