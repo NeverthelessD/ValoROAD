@@ -47,7 +47,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
   레벨 버튼(LV1 기본 · 시각 효과 · 애니메이션 · 피니셔 …)을 누르면 라이엇 영상(valorant.dyn.riotcdn.net, <video> 로 바로 재생),
   변형(크로마) 견본을 누르면 그 색의 이미지, 변형 영상이 있으면 '이 변형 영상'. 가격 · 위시 하트도 창 안에.
   content.json 형식 2(Details: 스킨별 레벨 · 크로마) — 형식이 바뀌면 같은 게임 버전이어도 다시 받음(contentFormat). /api/skin.
-  껍데기: mediaTypesRequiringUserActionForPlayback = [] (영상이 소리와 함께 바로 재생), 전체 화면 허용.
+  껍데기: mediaTypesRequiringUserActionForPlayback = [] (영상이 소리와 함께 바로 재생), 전체 화면 허용. 맥 빌드 서버 27/27, 릴리스 완료.
 
 ---
 
