@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ValoROAD</title>
+<link rel="icon" href="/icon.png">
+<link rel="preload" href="/fonts/anton-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/barlowcondensed-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 512 512" aria-hidden="true">
+        <rect x="0" y="0" width="512" height="512" rx="112" fill="#0F1923"/>
+        <circle cx="256" cy="256" r="196" fill="none" stroke="#FF4655" stroke-width="26" stroke-dasharray="267.9 40" stroke-dashoffset="-20"/>
+        <path d="M256 30 V82 M256 430 V482 M30 256 H82 M430 256 H482" stroke="#FF4655" stroke-width="26"/>
+        <g transform="translate(143.4 356) scale(0.11364 -0.11364)" fill="#ECE8E1">
+          <path d="M240 0 23 1761H358L487 563L602 1761H937L720 0Z"/>
+          <path transform="translate(1021 0)" d="M78 0V1760H618Q753 1760 822.0 1698.5Q891 1637 914.5 1526.5Q938 1416 938 1267Q938 1123 901.5 1037.0Q865 951 764 918Q847 901 880.5 835.5Q914 770 914 666V0H567V689Q567 766 535.5 784.5Q504 803 434 803V0ZM436 1108H521Q594 1108 594 1267Q594 1370 578.0 1402.0Q562 1434 518 1434H436Z"/>
+        </g>
+      </svg>
+      <span class="word">Valo<b>ROAD</b></span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="주요 메뉴">
+      <button class="tab" role="tab" data-view="store" aria-selected="true"><span class="lbl">STORE</span><span class="ko">상점</span></button>
+      <button class="tab" role="tab" data-view="wish" aria-selected="false"><span class="lbl">WISHLIST</span><span class="ko">위시리스트</span></button>
+      <button class="tab" role="tab" data-view="settings" aria-selected="false"><span class="lbl">SETTINGS</span><span class="ko">설정</span></button>
+    </nav>
+    <div class="wallet" id="wallet"></div>
+  </header>
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="view" id="view-store">
+    <aside class="side" id="side" aria-label="저장된 계정"></aside>
+    <section class="main" id="storeMain" aria-live="polite"></section>
+  </div>
+
+  <div class="view" id="view-wish" hidden>
+    <div class="wish-wrap" id="wishWrap"></div>
+  </div>
+
+  <div class="view" id="view-settings" hidden>
+    <div class="set-wrap" id="setWrap"></div>
+  </div>
+
+  <footer class="foot">
+    <span class="lbl">made by. Nevertheless_D</span>
+    <span id="footNote">ValoROAD는 Riot Games가 만들거나 보증한 앱이 아니에요 · 확인 전용</span>
+  </footer>
+</div>
+<div class="overlay" id="overlay" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="/js/app.js"></script>
+</body>
+</html>

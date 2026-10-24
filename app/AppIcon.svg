@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- ValoROAD 아이콘 (확정 B · SCOPE): 조준경 고리 + VR. 글자는 Anton 의 V · R 모양을 그대로 따온 것 -->
+  <g transform="translate(100 100) scale(1.609375)">
+    <rect x="0" y="0" width="512" height="512" rx="112" fill="#0F1923"/>
+    <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#24333F" stroke-width="6"/>
+    <circle cx="256" cy="256" r="196" fill="none" stroke="#FF4655" stroke-width="16" stroke-dasharray="267.9 40" stroke-dashoffset="-20"/>
+    <path d="M256 30 V82 M256 430 V482 M30 256 H82 M430 256 H482" stroke="#FF4655" stroke-width="16"/>
+    <g transform="translate(143.4 356) scale(0.11364 -0.11364)" fill="#ECE8E1">
+      <path d="M240 0 23 1761H358L487 563L602 1761H937L720 0Z"/>
+      <path transform="translate(1021 0)" d="M78 0V1760H618Q753 1760 822.0 1698.5Q891 1637 914.5 1526.5Q938 1416 938 1267Q938 1123 901.5 1037.0Q865 951 764 918Q847 901 880.5 835.5Q914 770 914 666V0H567V689Q567 766 535.5 784.5Q504 803 434 803V0ZM436 1108H521Q594 1108 594 1267Q594 1370 578.0 1402.0Q562 1434 518 1434H436Z"/>
+    </g>
+  </g>
+</svg>

@@ -17,10 +17,10 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - [x] 0. 디자인 시안 → 사용자 확정 (2026-10-24, Design 캔버스 'ValoROAD 디자인 시안' v2 + 아이콘 B · SCOPE)
 - [x] 1. 라이엇 로그인 · 상점 API 최신 방식 확인 (아래 「라이엇 연결」)
 - [x] 2. 저장소 뼈대 (이 파일, CLAUDE.md, VERSION, .gitignore)
-- [ ] 3. 엔진: 계정 3개 · 키체인 · 쿠키 재로그인 · 상점/지갑/밤시장/번들 · 스킨 데이터(valorant-api.com) · 이미지 캐시 · 위시리스트 · 알림 · 업데이트 · 진단
-- [ ] 4. 화면: 상점 · 위시리스트 · 설정 · 계정 추가 안내, 라이트/다크, 폰트 동봉
-- [ ] 5. 맥 앱 껍데기(Swift): Dock 앱 · 엔진 지킴이 · 라이엇 로그인 창 · 알림 · --riot-fetch 도우미
-- [ ] 6. 리눅스에서 데모 모드 + Playwright 로 화면 시험
+- [x] 3. 엔진: 계정 3개 · 키체인 · 쿠키 재로그인 · 상점/지갑/밤시장/번들 · 스킨 데이터(valorant-api.com) · 이미지 캐시 · 위시리스트 · 알림 · 업데이트 · 진단
+- [x] 4. 화면: 상점 · 위시리스트 · 설정 · 계정 추가 안내, 라이트/다크, 폰트 동봉
+- [x] 5. 맥 앱 껍데기(Swift): Dock 앱 · 엔진 지킴이 · 라이엇 로그인 창 · 알림 · --riot-fetch 도우미
+- [x] 6. 리눅스에서 데모 모드 + Playwright 로 화면 시험
 - [ ] 7. 맥 빌드 서버(빌드 · smoke) 통과
 - [ ] 8. 사용 가이드 이미지 · v1.0.0 릴리스 (releases/latest.json, 처음 설치용 zip)
 - [ ] 9. 사용자 맥에서 실제 라이엇 로그인 · 상점 확인
@@ -28,6 +28,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
 ### 작업 기록
 - 2026-10-24 디자인 확정. 사용자 요청 정리: 앱 이름 ValoROAD, 발로란트/FPS 느낌, 계정 3개 저장 + 자동 로그인 유지,
   계정을 누르면 로그아웃 없이 그 계정 상점, 실제 스킨 이름 · 이미지, 위시리스트 스킨이 뜨면 알림, 구매 기능 없음, 로그인 문제 잘 해결.
+- 2026-10-24 v1.0.0 제작: 엔진 · 화면 · 껍데기 · 아이콘 · 가이드. 리눅스 데모 모드 + Playwright 로 상점(다크/라이트) · 위시리스트 · 설정 확인.
 
 ---
 
@@ -74,7 +75,32 @@ macOS (Apple Silicon). made by. Nevertheless_D
 
 ## 구조
 
-(엔진 · 껍데기를 만든 뒤 채울 것)
+```
+app/shell/main.swift   ValoROAD.app 본체(Swift/AppKit): Dock 아이콘 · 메뉴 · WKWebView 창 · 엔진 실행/종료 · Dock 다시 열기 ·
+                       업데이트 후 다시 열기(restart-requested → NSWorkspace) · launcher.log
+                       LoginController: 라이엇 공식 로그인 창(계정마다 비영구 저장소) → opt_in#access_token 가로채기 → 쿠키와 함께 /api/accounts/login
+                       Bridge 'valoroad' (화면 → 앱): login · loginCancel   알림: 15초마다 /api/notify/pending → UNUserNotificationCenter
+                       `ValoROAD --riot-fetch` : 엔진의 riotgames.com 요청을 URLSession 으로 대신 보냄 (창 없이 끝남)
+app/Info.plist         LSUIElement 없음, NSAllowsLocalNetworking, 자동/갑작스런 종료 끔
+app/AppIcon.svg/png/icns  아이콘 B · SCOPE (scripts 없이 Playwright 로 렌더 → Pillow 로 icns)
+engine/main.go         라우트 · 설정(settings.json: 테마 · 자동업데이트 · 알림 · 위시리스트 · 마지막 계정) · rev(화면 새로 읽기 신호)
+engine/riot.go         라이엇 연결: 쿠키 재로그인 · userinfo · 지역(PAS) · 엔타이틀먼트 · 상점 v3 · 지갑 · 쿠키 합치기
+engine/accounts.go     계정 3개 · 세션(메모리) · 상점 받기/저장(Support/stores) · 매일 오전 9시 다시 받기 · 만료/오류 상태
+engine/secrets.go      로그인 열쇠 보관: 키체인(/usr/bin/security, 넣을 때는 `security -i` 표준 입력) · 리눅스는 파일
+engine/content.go      valorant-api.com 스킨/번들/등급 → Support/content/content.json · 이미지 캐시(/api/img, media.valorant-api.com 만)
+engine/wishlist.go     위시리스트 · 알림 만들기(한 번만, notified.json) · /api/skins · /api/wishlist
+engine/demo.go         시험 모드(VALOROAD_DEMO=1 또는 Support/demo-mode): 가짜 계정 3개 + 실제 스킨으로 만든 상점
+engine/supervise.go · diag.go · update.go   MSROAD 와 같음 (지킴이 · 진단 /diag · 자동 업데이트)
+engine/web/            index.html · css/app.css(확정 디자인 토큰) · js/app.js(상점 · 위시리스트 · 설정 · 로그인 안내) · fonts/(OFL)
+scripts/               build-mac.sh · smoke-mac.sh(R 도우미 · A 화면 · K 키체인 · N 알림 · B~G 수명) · ci-mac.sh · release.sh · feed.py · guide.py
+docs/                  guide.html → ValoROAD_사용가이드.png (python3 scripts/guide.py)
+```
+엔진 실행 사슬: ValoROAD.app(Swift, Dock) → valoroad-engine(지킴이, VALOROAD_SUPERVISOR=1) → valoroad-engine(엔진, VALOROAD_CHILD=1). 주소 127.0.0.1:47931.
+
+### 리눅스에서 시험하는 법
+`cd engine && go test ./... && go build -o /tmp/vr .` →
+`VALOROAD_DEMO=1 VALOROAD_SUPPORT=/tmp/sup VALOROAD_TOKEN=tok VALOROAD_PORT=47931 /tmp/vr` → 브라우저/Playwright 로 `http://127.0.0.1:47931/?t=tok`.
+(시험 모드도 스킨 정보 · 이미지는 실제로 valorant-api.com 에서 받아요.) 로그인 · 알림 · 키체인 · 도우미는 맥 빌드 서버 시험에서 확인.
 
 ## 업데이트 내보내는 법 (Claude용)
 
