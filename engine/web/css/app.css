@@ -243,6 +243,8 @@ html[data-theme="light"] .bundle { background: #182633; }
 .wprice { display: flex; align-items: center; gap: 7px; min-width: 96px; }
 .wprice svg, .rprice svg { width: 15px; height: 15px; flex: 0 0 auto; }
 .wprice b { font-family: var(--display); font-weight: 400; font-size: 23px; line-height: 1; letter-spacing: .03em; }
+.wprice small, .rprice small { font-size: 12px; font-weight: 700; opacity: .8; margin-right: -3px; }
+.wprice.est b, .rprice.est b { opacity: .85; }
 .wprice.none, .rprice.none { font-size: 12px; font-weight: 600; color: var(--muted); }
 .wrow.hit .wprice.none { color: var(--on-hit); opacity: .8; }
 .rprice { display: flex; align-items: center; gap: 6px; margin-top: 4px; }

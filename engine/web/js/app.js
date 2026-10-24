@@ -27,7 +27,7 @@ async function api(path, body) {
 const S = {
   view: 'store', state: null, active: null, store: null, storeLoading: false, storeErr: '',
   bundleIdx: 0, rev: -1, refreshing: false,
-  wish: { q: '', cat: 'all', items: [], results: [], total: 0, sum: 0, pricesReady: false },
+  wish: { q: '', cat: 'all', items: [], results: [], total: 0, sum: 0, pricesReady: false, priceError: '' },
   login: null, // { slot, phase: 'wait' | 'error' | 'nobridge', error }
 };
 
@@ -150,6 +150,7 @@ async function loadWishlist() {
     S.wish.items = r.items || [];
     S.wish.sum = r.total || 0;
     S.wish.pricesReady = !!r.pricesReady;
+    S.wish.priceError = r.priceError || '';
   } catch { /* ignore */ }
   if (S.view === 'wish') renderWishList();
 }
@@ -395,6 +396,7 @@ function renderWish() {
       <div class="chips" role="group" aria-label="무기 종류">${CATS.map(([k, t]) => `<button class="chip" data-cat="${k}" aria-pressed="${S.wish.cat === k}">${t}</button>`).join('')}</div>
     </div>
     <div id="results"></div>
+    <div id="priceNote"></div>
     <div id="wishList"></div>
   </section>
   <aside class="wish-side">
@@ -416,11 +418,19 @@ function renderWish() {
 }
 
 function wishSumText() {
-  const n = S.wish.items.filter((w) => w.price > 0).length;
-  return S.wish.pricesReady && n ? ` · 모두 합쳐 ${fmt(S.wish.sum)} VP` : '';
+  const priced = S.wish.items.filter((w) => w.price > 0);
+  if (!priced.length) return '';
+  const est = priced.some((w) => w.priceState === 'estimate');
+  return ` · 모두 합쳐 ${est ? '약 ' : ''}${fmt(S.wish.sum)} VP`;
+}
+
+function priceNote() {
+  if (S.wish.pricesReady || !S.wish.items.some((w) => w.priceState === 'estimate')) return '';
+  return `<p class="hint" style="margin:0">‘약’이 붙은 가격은 등급별 보통 가격이에요. 라이엇 가격표를 받으면 정확한 가격으로 바뀌어요.${S.wish.priceError ? ` <span style="opacity:.8">(가격표를 받지 못한 이유: ${esc(S.wish.priceError)})</span>` : ''}</p>`;
 }
 
 function priceHTML(p, state, cls = 'wprice') {
+  if (p > 0 && state === 'estimate') return `<span class="${cls} est" title="라이엇 가격표를 아직 못 받아서 등급별 보통 가격으로 보여 드려요">${I.vp()}<small>약</small><b>${fmt(p)}</b></span>`;
   if (p > 0) return `<span class="${cls}">${I.vp()}<b>${fmt(p)}</b></span>`;
   const t = state === 'none' ? '상점 판매 없음' : '가격 확인 중';
   const tip = state === 'none' ? '배틀패스 · 이벤트 보상처럼 상점에서 팔지 않는 스킨이에요' : '계정이 로그인되면 라이엇 상점 가격표를 받아 와요';
@@ -450,6 +460,8 @@ function renderWishList() {
   const sum = $('#wishSum');
   if (sum) sum.textContent = wishSumText();
   const items = S.wish.items;
+  const pn = $('#priceNote');
+  if (pn) pn.innerHTML = priceNote();
   if (!items.length) {
     el.innerHTML = `<p class="hint">아직 담은 스킨이 없어요. 위에서 스킨을 찾아 담거나, 상점 카드의 하트를 눌러 보세요.</p>`;
     return;

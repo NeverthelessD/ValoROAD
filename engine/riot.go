@@ -424,7 +424,7 @@ func pdGet(s *session, shard, method, path string, body []byte) ([]byte, error) 
 	case resp.Status == 200:
 		return resp.Body, nil
 	case resp.Status == 400 || resp.Status == 401 || resp.Status == 403:
-		return nil, errTokenRejected
+		return nil, fmt.Errorf("%w (HTTP %d)", errTokenRejected, resp.Status)
 	case resp.Status == 429:
 		return nil, errors.New("라이엇 서버가 잠시 쉬어 달래요. 1분 뒤 다시 시도해 주세요")
 	default:

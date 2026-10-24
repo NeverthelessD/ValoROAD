@@ -167,6 +167,7 @@ func (a *App) handleDiag(w http.ResponseWriter, r *http.Request) {
 	cs := a.content.Status()
 	p("스킨 정보  %v · 버전 %v · 스킨 %v개 · %v", cs["ready"], cs["version"], cs["count"], cs["error"])
 	p("라이엇 연결 %s", riotTransportName())
+	p("가격       %s", a.prices.Status())
 	for _, v := range a.accounts.Views() {
 		p("계정 %d     지역 %s · 상태 %s %s · 상점 %s", v.Slot, v.Region, v.Status, v.Error, v.StoreAge)
 	}

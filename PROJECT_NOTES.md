@@ -35,6 +35,12 @@ macOS (Apple Silicon). made by. Nevertheless_D
   engine/prices.go: 라이엇 `GET pd.{shard}/store/v1/offers/` (전체 판매 목록, 레벨 uuid → VP) 를 로그인된 계정으로 하루 한 번 받아
   Support/content/prices.json 에 저장. 위시리스트 줄 · 검색 결과 카드에 가격, 제목 아래 '모두 합쳐 N VP', 밤시장에 있으면 할인 가격.
   목록에 없는 스킨은 '상점 판매 없음'(배틀패스 · 이벤트), 가격표를 아직 못 받았으면 '가격 확인 중'. 시험 모드는 등급별 기본 가격.
+- 2026-10-24 사용자: 1.0.1 에서 새로고침해도 계속 '가격 확인 중'. (사용자 맥의 /diag 는 이 세션에서 볼 수 없었음 — 내장 브라우저가 127.0.0.1 을 못 염.
+  원인 확인 못 함: store/v1/offers 가 실패했을 가능성이 큼.) → v1.0.2:
+  ① 상점 · 밤시장 · 번들(Items[].BasePrice)에서 본 원래 가격을 prices.json 'seen' 에 계속 모음(StoreData.Seen · seenPrices)
+  ② 그래도 없으면 등급별 보통 가격을 '약 1,775'(priceState estimate)로, 합계도 '약'
+  ③ 가격표 실패 이유를 위시리스트 화면 · /diag '가격' 줄에 표시, 위시리스트를 열면 45초 간격으로 다시 시도, 토큰 거절이면 새 토큰으로 한 번 더
+  ④ pdGet 오류에 HTTP 코드 포함. 다음 할 일: 사용자 화면의 '가격표를 받지 못한 이유' 문구로 진짜 원인 확인.
 
 ---
 
@@ -96,7 +102,7 @@ engine/accounts.go     계정 3개 · 세션(메모리) · 상점 받기/저장(
 engine/secrets.go      로그인 열쇠 보관: 키체인(/usr/bin/security, 넣을 때는 `security -i` 표준 입력) · 리눅스는 파일
 engine/content.go      valorant-api.com 스킨/번들/등급 → Support/content/content.json · 이미지 캐시(/api/img, media.valorant-api.com 만)
 engine/wishlist.go     위시리스트 · 알림 만들기(한 번만, notified.json) · /api/skins · /api/wishlist (가격 포함)
-engine/prices.go       스킨 가격표(store/v1/offers) · priceOf → ok | none(상점 판매 없음) | unknown
+engine/prices.go       스킨 가격표(store/v1/offers) + 상점에서 본 가격(seen) · priceOf → ok | estimate(약, 등급별) | none(상점 판매 없음) | unknown
 engine/demo.go         시험 모드(VALOROAD_DEMO=1 또는 Support/demo-mode): 가짜 계정 3개 + 실제 스킨으로 만든 상점
 engine/supervise.go · diag.go · update.go   MSROAD 와 같음 (지킴이 · 진단 /diag · 자동 업데이트)
 engine/web/            index.html · css/app.css(확정 디자인 토큰) · js/app.js(상점 · 위시리스트 · 설정 · 로그인 안내) · fonts/(OFL)

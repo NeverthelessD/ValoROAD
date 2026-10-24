@@ -60,6 +60,26 @@ type StoreData struct {
 	NightEnds int64          `json:"nightEnds"`
 	Bundles   []RawBundle    `json:"bundles"`
 	Wallet    map[string]int `json:"wallet"`
+	Seen      map[string]int `json:"seen,omitempty"` // 이 상점에서 본 아이템의 원래 가격 (레벨 uuid → VP)
+}
+
+// seenPrices: 상점 · 밤시장 · 번들에서 본 원래 가격들 (라이엇 가격표를 못 받았을 때도 쓸 수 있게)
+func seenPrices(st *StoreData) map[string]int {
+	m := map[string]int{}
+	for k, v := range st.Seen {
+		m[k] = v
+	}
+	for _, o := range st.Daily {
+		if o.Price > 0 {
+			m[o.Item] = o.Price
+		}
+	}
+	for _, o := range st.Night {
+		if o.Base > 0 {
+			m[o.Item] = o.Base
+		}
+	}
+	return m
 }
 
 type Accounts struct {
@@ -91,6 +111,9 @@ func NewAccounts(support string, c *Content) *Accounts {
 			var st StoreData
 			if json.Unmarshal(b, &st) == nil {
 				a.stores[acc.ID] = &st
+				if app != nil && app.prices != nil {
+					app.prices.Merge(seenPrices(&st))
+				}
 			}
 		}
 	}
@@ -545,6 +568,9 @@ func (a *Accounts) Refresh(id string, force bool) error {
 	a.stores[id] = st
 	delete(a.nextTry, id)
 	a.mu.Unlock()
+	if app != nil && app.prices != nil && !demoMode() {
+		app.prices.Merge(seenPrices(st))
+	}
 	a.update(id, func(x *Account) { x.Status, x.Error, x.LastOK = "ok", "", time.Now().Unix() })
 	log.Printf("account %d: 상점 받음 (오늘의 상점 %d · 밤시장 %d · 번들 %d)", acc.Slot, len(st.Daily), len(st.Night), len(st.Bundles))
 	if app != nil && app.notes != nil {
@@ -578,15 +604,6 @@ func (a *Accounts) fetchStore(acc *Account) (*StoreData, error) {
 		if w, werr := fetchWallet(s, acc.Shard, acc.PUUID); werr == nil {
 			wallet = w
 		}
-		if app != nil && app.prices.Stale() {
-			if m, perr := fetchOffers(s, acc.Shard); perr == nil && len(m) > 0 {
-				app.prices.Set(m)
-				log.Printf("가격표 받음 (%d개)", len(m))
-				app.bump()
-			} else if perr != nil {
-				log.Printf("가격표 받기 실패: %v", perr)
-			}
-		}
 		break
 	}
 	if sf == nil {
@@ -604,7 +621,7 @@ func (a *Accounts) fetchStore(acc *Account) (*StoreData, error) {
 
 func buildStore(sf *rawStorefront, now time.Time) *StoreData {
 	t := now.Unix()
-	st := &StoreData{Fetched: t, Daily: []RawOffer{}, Night: []RawOffer{}, Bundles: []RawBundle{}}
+	st := &StoreData{Fetched: t, Daily: []RawOffer{}, Night: []RawOffer{}, Bundles: []RawBundle{}, Seen: map[string]int{}}
 	sp := sf.SkinsPanelLayout
 	if len(sp.SingleItemStoreOffers) > 0 {
 		for _, o := range sp.SingleItemStoreOffers {
@@ -639,6 +656,11 @@ func buildStore(sf *rawStorefront, now time.Time) *StoreData {
 	}
 	for _, b := range sf.FeaturedBundle.Bundles {
 		rb := RawBundle{ID: strings.ToLower(b.DataAssetID), Price: b.TotalDiscountedCost[currencyVP], Base: b.TotalBaseCost[currencyVP], Items: len(b.Items)}
+		for _, it := range b.Items {
+			if it.BasePrice > 0 && it.Item.ItemID != "" {
+				st.Seen[strings.ToLower(it.Item.ItemID)] = it.BasePrice
+			}
+		}
 		if rb.Price == 0 || rb.Base == 0 {
 			p, bs := 0, 0
 			for _, it := range b.Items {
@@ -686,10 +708,10 @@ func (a *Accounts) loop() {
 			}
 		}
 	}
-	a.ensurePrices()
+	a.ensurePrices(false)
 	for range time.Tick(30 * time.Second) {
 		now := time.Now()
-		a.ensurePrices()
+		a.ensurePrices(false)
 		for _, id := range a.IDs() {
 			acc := a.get(id)
 			if acc == nil {
@@ -807,31 +829,66 @@ func (app *App) handleAccountCheck(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, out)
 }
 
-var priceTry time.Time
+var (
+	priceMu  sync.Mutex
+	priceTry time.Time
+)
 
-// ensurePrices: 가격표가 없거나 하루가 지났으면, 로그인된 계정 하나로 받아요 (10분에 한 번만 시도)
-func (a *Accounts) ensurePrices() {
-	if app == nil || demoMode() || !app.prices.Stale() || time.Since(priceTry) < 10*time.Minute {
+// ensurePrices: 라이엇 가격표가 없거나 하루가 지났으면, 로그인된 계정으로 받아요.
+// 보통은 10분에 한 번만 시도하고, 위시리스트 화면을 열면(soon) 45초 만에 다시 시도해요.
+func (a *Accounts) ensurePrices(soon bool) {
+	if app == nil || demoMode() || !app.prices.Stale() {
+		return
+	}
+	priceMu.Lock()
+	wait := 10 * time.Minute
+	if soon {
+		wait = 45 * time.Second
+	}
+	if time.Since(priceTry) < wait {
+		priceMu.Unlock()
 		return
 	}
 	priceTry = time.Now()
+	priceMu.Unlock()
+	var lastErr error
+	tried := false
 	for _, id := range a.IDs() {
 		acc := a.get(id)
 		if acc == nil || acc.Status == "expired" {
 			continue
 		}
-		s, err := a.ensureSession(acc, false)
-		if err != nil {
-			continue
+		for attempt := 0; attempt < 2; attempt++ {
+			s, err := a.ensureSession(acc, attempt > 0)
+			if err != nil {
+				lastErr = err
+				break
+			}
+			tried = true
+			m, err := fetchOffers(s, acc.Shard)
+			if errors.Is(err, errTokenRejected) && attempt == 0 {
+				lastErr = err
+				continue
+			}
+			if err == nil && len(m) == 0 {
+				err = errors.New("가격표가 비어 있어요")
+			}
+			if err != nil {
+				lastErr = err
+				break
+			}
+			app.prices.Set(m)
+			log.Printf("가격표 받음 (%d개, 계정 %d)", len(m), acc.Slot)
+			app.bump()
+			return
 		}
-		m, err := fetchOffers(s, acc.Shard)
-		if err != nil || len(m) == 0 {
-			log.Printf("가격표 받기 실패: %v", err)
-			continue
-		}
-		app.prices.Set(m)
-		log.Printf("가격표 받음 (%d개)", len(m))
+	}
+	if !tried && lastErr == nil {
+		lastErr = errors.New("로그인된 계정이 없어요")
+	}
+	if lastErr != nil {
+		log.Printf("가격표 받기 실패: %v", lastErr)
+		app.prices.SetErr(lastErr.Error())
 		app.bump()
-		return
 	}
 }

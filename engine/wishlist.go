@@ -233,6 +233,9 @@ type WishView struct {
 
 func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 	s := a.Settings()
+	if a.prices.Stale() && !demoMode() {
+		go func() { defer recoverLog("prices"); a.accounts.ensurePrices(true) }()
+	}
 	where := map[string][]WhereView{}
 	for _, v := range a.accounts.Views() {
 		label := v.Name
@@ -260,5 +263,5 @@ func (a *App) handleWishlist(w http.ResponseWriter, r *http.Request) {
 		total += wv.Price
 		out = append(out, wv)
 	}
-	writeJSON(w, map[string]any{"items": out, "total": total, "pricesReady": a.prices.Ready() || demoMode()})
+	writeJSON(w, map[string]any{"items": out, "total": total, "pricesReady": a.prices.Ready() || demoMode(), "priceError": a.prices.Err()})
 }

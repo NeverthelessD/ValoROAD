@@ -80,6 +80,15 @@ func TestBuildStore(t *testing.T) {
 	if len(st.Bundles) != 1 || st.Bundles[0].ID != "d1a" || st.Bundles[0].Price != 7100 || st.Bundles[0].Base != 8700 {
 		t.Fatalf("bundles %+v", st.Bundles)
 	}
+	seen := seenPrices(st)
+	if seen["x"] != 1775 || seen["l1"] != 1775 || seen["l2"] != 875 || seen["n1"] != 1775 {
+		t.Fatalf("seen %+v", seen)
+	}
+	p := &Prices{path: t.TempDir() + "/p.json", VP: map[string]int{}, Seen: map[string]int{}}
+	p.Merge(seen)
+	if p.Get("L2") != 875 || p.Ready() {
+		t.Fatal("prices merge")
+	}
 }
 
 func TestReset(t *testing.T) {
