@@ -68,6 +68,11 @@ macOS (Apple Silicon). made by. Nevertheless_D
   진단 · 로컬 알림(위시 적중 · 사용 기간 하루 전/2시간 전) · BGAppRefresh(다음 오전 9시 + 90초). 빌드 서버 Xcode 26.3 / iPhone 17 Pro(iOS 26.2) 시뮬레이터에서
   sim=ok device=ok shots=ok. 무료 애플 ID 설치 안내: docs/ValoROAD_아이폰_설치.png (python3 scripts/ios-guide.py).
 
+- 2026-10-27 아이폰 1.0.1: 사용자 아이폰에서 설치 성공(Xcode 26, 무료 애플 ID). 상점 카드 스킨 이미지가 위쪽에 붙어 등급 글자 · 하트를 가림 →
+  RemoteImage 를 칸 가운데로(frame max), 카드 이미지 칸 112→124 · 위 30 여백, 미리보기도 가운데. 버전은 Version.swift(appVersion) 로 옮김.
+  **업데이트 전달 방식**: .xcodeproj(서명 팀 · 번들 id 가 든 파일)는 그대로 두고 ValoROAD 폴더만 바꿔 넣게 함 → ValoROAD-iPhone-x.y.z-업데이트.zip.
+  Xcode 26 은 Window 메뉴에 Devices and Simulators 가 없음 → 기기 고르는 곳 › Manage Run Destinations… 로 안내. 무선 설치는 첫 케이블 설치 뒤 자동.
+
 ---
 
 ## 결정 사항
@@ -124,7 +129,8 @@ macOS (Apple Silicon). made by. Nevertheless_D
   (status.json: sim · device · shots, build-*-errors.txt, shots/*.png, app-log.txt). 시험 인자: -demo -tab store|wishlist|settings -theme dark|light
   -active 1|2|3 -scroll bundle|night -preview -login
 - 사용자에게 줄 때: ios/ 의 ValoROAD.xcodeproj + ValoROAD 폴더 + 설치 안내 이미지를 ValoROAD-iPhone.zip 으로 묶어 보냄(사용자 문서 폴더에 둠).
-  버전은 ios/VERSION 과 pbxproj MARKETING_VERSION 을 함께 올림.
+  버전은 ios/VERSION · ios/ValoROAD/Version.swift · pbxproj MARKETING_VERSION 을 함께 올림.
+  업데이트는 ValoROAD 폴더만 담은 zip 으로 (사용자가 문서/ValoROAD-iPhone 안의 ValoROAD 폴더를 바꿔 넣고 ▶).
 
 ## 구조
 
