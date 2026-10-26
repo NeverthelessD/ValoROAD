@@ -26,7 +26,10 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - [x] 9. 사용자 맥에서 실제 라이엇 로그인 · 상점 확인 (사용자: "사용이 잘 돼요", 2026-10-26)
 
 ### 아이폰 버전 (2026-10-26 시작)
-- [ ] i0. 아이폰 디자인 시안 → 사용자 확정 (Design 캔버스 'ValoROAD 아이폰 시안' v1 보냄, 확정 기다리는 중)
+- [x] i0. 아이폰 디자인 시안 → 사용자 확정 (2026-10-26, Design 캔버스 'ValoROAD 아이폰 시안' v1)
+- ⏸ 2026-10-26 일시 멈춤: 사용자 맥에 Xcode 관련 문제. 설치 방법 다시 정하기로 —
+  ① AltStore/Sideloadly + 빌드 서버가 만든 .ipa (무료, 7일) ② TestFlight (연 99달러, 맥 필요 없음, 빌드 서버가 업로드 — 사용자가 궁금해함)
+  만들던 코드는 `ios-wip` 브랜치(아이콘 · 글꼴 ttf · Info.plist · Support.swift). 구조: 네이티브 Swift/SwiftUI 로 엔진 로직 옮기기.
 - [ ] i1. iOS 앱(SwiftUI 또는 UIKit + WKWebView) 뼈대 · 라이엇 로그인 · 키체인 · 상점
 - [ ] i2. 위시리스트 · 미리보기 · 알림(BGAppRefresh) · 남은 사용 기간 표시
 - [ ] i3. 맥 빌드 서버에서 시뮬레이터 빌드 확인 → 사용자 맥에서 Xcode 로 설치 안내
