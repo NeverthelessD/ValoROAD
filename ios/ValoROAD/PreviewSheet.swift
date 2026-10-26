@@ -65,6 +65,7 @@ private struct PreviewBody: View {
         .overlay(alignment: .top) { Rectangle().fill(p.red).frame(height: 3) }
         .foregroundStyle(p.text)
         .onAppear {
+            Log.write("미리보기 열기: \(skin.name) · 레벨 \(detail.levels.count) · 변형 \(detail.chromas.count)")
             try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
             media = .image(detail.chromas.first?.img.isEmpty == false ? detail.chromas[0].img : skin.img)
         }

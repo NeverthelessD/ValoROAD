@@ -70,7 +70,9 @@ print(best[2]+" / "+best[3] if best else "", file=sys.stderr)
     shot 04-store-bundle 12 -tab store -theme dark -active 2 -scroll bundle
     shot 05-store-night 12 -tab store -theme dark -active 2 -scroll night
     shot 06-store-expired 10 -tab store -theme dark -active 3
-    shot 07-preview 14 -tab store -theme dark -active 2 -preview
+    shot 07-preview 10 -tab store -theme dark -active 2 -preview
+    sleep 6; xcrun simctl io "$UDID" screenshot "$OUT/shots/07b-preview-later.png" > /dev/null 2>&1
+    xcrun simctl spawn "$UDID" log show --last 25s --style compact --predicate 'process == "ValoROAD" AND (subsystem BEGINSWITH "com.apple.SwiftUI" OR subsystem BEGINSWITH "com.apple.UIKit" OR messageType >= 16)' 2>/dev/null | tail -200 > "$OUT/preview-log.txt"
     shot 08-wishlist 10 -tab wishlist -theme dark
     shot 09-settings 10 -tab settings -theme dark
     shot 10-login 16 -tab settings -theme dark -login

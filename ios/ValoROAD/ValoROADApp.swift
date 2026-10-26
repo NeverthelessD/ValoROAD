@@ -139,6 +139,16 @@ private struct RootBody: View {
             TabBar()
         }
         .background(p.bg.ignoresSafeArea())
+        .overlay(alignment: .top) {
+            // 위로 스크롤한 내용이 시계 · 배터리 줄 밑으로 비치지 않게 가려요
+            GeometryReader { g in
+                p.bg
+                    .frame(height: g.safeAreaInsets.top)
+                    .offset(y: -g.safeAreaInsets.top)
+                    .allowsHitTesting(false)
+            }
+            .frame(height: 0)
+        }
         .overlay(alignment: .top) { NoticeBanner() }
         .sheet(item: $router.preview) { t in
             PreviewSheet(target: t)
