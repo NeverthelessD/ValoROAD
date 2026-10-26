@@ -47,7 +47,9 @@ struct RemoteImage: View {
     var body: some View {
         Group {
             if let img {
+                // 어떤 크기의 칸에 넣어도 가운데에 오도록 (아이폰에서 위쪽에 붙던 문제, v1.0.1)
                 Image(uiImage: img).resizable().aspectRatio(contentMode: mode)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             } else {
                 Image(systemName: "scope")
                     .font(.system(size: 22, weight: .light))

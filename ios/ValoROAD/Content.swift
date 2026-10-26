@@ -186,4 +186,3 @@ func tierPrice(_ s: Skin) -> Int {
     return ["select": 875, "deluxe": 1275, "premium": 1775, "exclusive": 2175, "ultra": 2475][s.tier] ?? 0
 }
 
-let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"

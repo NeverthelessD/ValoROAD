@@ -404,8 +404,10 @@ struct ItemCard: View {
                     }
                     ZStack(alignment: .topLeading) {
                         tierTint(s.tier, p)
+                        // 위쪽 등급 글자 · 오른쪽 하트와 겹치지 않게 여백을 두고 가운데에
                         RemoteImage(url: s.img)
-                            .padding(.horizontal, 10).padding(.vertical, 18)
+                            .padding(.top, 30).padding(.bottom, 12).padding(.horizontal, 14)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .foregroundStyle(p.text)
                         HStack(spacing: 6) {
                             Diamond().fill(Tier.color(s.tier)).frame(width: 9, height: 9)
@@ -413,7 +415,7 @@ struct ItemCard: View {
                         }
                         .padding(8)
                     }
-                    .frame(height: 112)
+                    .frame(height: 124)
                     Rectangle().fill(Tier.color(s.tier)).frame(height: 3)
                     VStack(alignment: .leading, spacing: 3) {
                         Text(s.weaponEn.isEmpty ? " " : s.weaponEn)

@@ -117,7 +117,8 @@ private struct PreviewBody: View {
             tierTint(skin.tier, p)
             switch media {
             case .image(let u):
-                RemoteImage(url: u).padding(18)
+                RemoteImage(url: u).padding(.horizontal, 18).padding(.top, 18).padding(.bottom, 40)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .video:
                 if let player {
                     VideoPlayer(player: player)
