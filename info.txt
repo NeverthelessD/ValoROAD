@@ -1,0 +1,9 @@
+commit: ef87f2a85bc6a6fbf3e632db59b6526c5b61ec9e  ios version: 1.0.1  started: 2026-10-26T22:17:09Z
+ProductName:		macOS
+ProductVersion:		15.7.9
+BuildVersion:		24G830
+arm64
+Xcode 26.3
+Build version 17C529
+app: /Users/runner/work/ValoROAD/ValoROAD/build/dd/Build/Products/Debug-iphonesimulator/ValoROAD.app
+iPhone 17 Pro / com.apple.CoreSimulator.SimRuntime.iOS-26-2

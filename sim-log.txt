@@ -1,0 +1,300 @@
+2026-10-26 22:27:10.416 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Will add backgroundTask with taskName: Persistent SceneSession Map Update, expirationHandler: <__NSGlobalBlock__: 0x1e61729e0>
+2026-10-26 22:27:10.416 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Reusing background assertion <BKSProcessAssertion: 0x600002102530>
+2026-10-26 22:27:10.416 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x600002102530>
+2026-10-26 22:27:10.416 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x600001719040>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 691 (elapsed = 0).
+2026-10-26 22:27:10.416 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason added: 5; deactivation reasons: 2048 -> 2080; animating application lifecycle event: 1
+2026-10-26 22:27:10.417 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Should send trait collection or coordinate space update, interface style 2 -> 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.418 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.418 Df ValoROAD[19186:e07d] [com.apple.UIKit:HomeAffordanceObservation] Initializing: <_UIHomeAffordanceSceneNotifier: 0x6000029145b0>; with scene: <UIWindowScene: 0x10120a4f0>
+2026-10-26 22:27:10.419 Df ValoROAD[19186:e07d] [com.apple.BacklightServices:scenes] 0x600000c19c80 setDelegate:<0x600000c1bb70 _UIBacklightEnvironment> hasDelegate:YES for environment:sceneID:com.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.420 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.420 Df ValoROAD[19186:e07d] [com.apple.UIKit:EventDeferring] [0x600002910c40] Initialized with scene: <UIWindowScene: 0x10120a4f0>; behavior: <_UIEventDeferringBehavior_iOS: 0x6000002212e0>; availableForProcess: 1, systemShellManagesKeyboardFocus: 1
+2026-10-26 22:27:10.422 Df ValoROAD[19186:e09a] [com.apple.BackBoard:EventDelivery] BKSHIDEventObserver - connection activation
+2026-10-26 22:27:10.422 Df ValoROAD[19186:e07d] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002600540; process scope; status: target> was:none
+2026-10-26 22:27:10.422 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to LastOneWins
+2026-10-26 22:27:10.422 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: 1; scene: UIWindowScene: 0x10120a4f0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.423 Df ValoROAD[19186:e07d] [com.apple.UIKit:EventDeferring] [0x600002910c40] Scene target of event deferring environments did update: scene: 0x10120a4f0; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-10-26 22:27:10.423 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x10120a4f0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.423 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Stack[KeyWindow] 0x600000c1b9f0: Taking no further action for migration from LastOneWins -> SystemShellManaged as there are no scenes
+2026-10-26 22:27:10.423 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to SystemShellManaged
+2026-10-26 22:27:10.423 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Key window needs update: 0; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x10120a4f0; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x0; reason: UIWindowScene: 0x10120a4f0: Window scene became target of keyboard environment
+2026-10-26 22:27:10.424 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.424 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.425 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.493 Df ValoROAD[19186:e07d] [com.apple.UIKit:Orientation] <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34) Scene updated orientation preferences: none -> ( Pu Ll Lr )
+2026-10-26 22:27:10.498 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Key window API is scene-level: YES
+2026-10-26 22:27:10.498 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] UIWindowScene: 0x10120a4f0: Window became key in scene: UIWindow: 0x10120f090; contextId: 0xCC443520: reason: UIWindowScene: 0x10120a4f0: Window requested to become key in scene: 0x10120f090
+2026-10-26 22:27:10.498 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Key window needs update: 1; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x10120a4f0; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x10120f090; reason: UIWindowScene: 0x10120a4f0: Window requested to become key in scene: 0x10120f090
+2026-10-26 22:27:10.498 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Window did become application key: UIWindow: 0x10120f090; contextId: 0xCC443520; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.498 Df ValoROAD[19186:e07d] [com.apple.UIKit:EventDeferring] [0x600002910c40] Begin local event deferring requested for token: 0x60000260df80; environments: 1; reason: UIWindowScene: 0x10120a4f0: Begin event deferring in keyboardFocus for window: 0x10120f090
+2026-10-26 22:27:10.501 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.504 Df ValoROAD[19186:e09a] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002600540; token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default; status: ancestor> was:target
+2026-10-26 22:27:10.504 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:10.504 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 5; deactivation reasons: 2080
+2026-10-26 22:27:10.505 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason added: 12; deactivation reasons: 2080 -> 6176; animating application lifecycle event: 1
+2026-10-26 22:27:10.505 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason removed: 11; deactivation reasons: 6176 -> 4128; animating application lifecycle event: 1
+2026-10-26 22:27:10.505 Df ValoROAD[19186:e07d] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneIntelligenceSupportSettings> on FBSSceneSettings
+2026-10-26 22:27:10.507 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.508 Df ValoROAD[19186:e09a] [com.apple.UIIntelligenceSupport:xpc] establishing connection to agent
+2026-10-26 22:27:10.512 Df ValoROAD[19186:e09a] [com.apple.xpc:session] [0x600002112490] Session created.
+2026-10-26 22:27:10.512 Df ValoROAD[19186:e09a] [com.apple.xpc:session] [0x600002112490] Session created from connection [0x10130cc50]
+2026-10-26 22:27:10.512 Df ValoROAD[19186:e09a] [com.apple.xpc:connection] [0x10130cc50] activating connection: mach=true listener=false peer=false name=com.apple.uiintelligencesupport.agent
+2026-10-26 22:27:10.512 Df ValoROAD[19186:e09a] [com.apple.xpc:session] [0x600002112490] Session activated
+2026-10-26 22:27:10.522 A  ValoROAD[19186:e07d] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-10-26 22:27:10.592 Df ValoROAD[19186:e09a] [com.apple.xpc:connection] [0x101214640] activating connection: mach=true listener=false peer=false name=com.apple.fontservicesd
+2026-10-26 22:27:10.699 Df ValoROAD[19186:e09a] [com.apple.xpc:connection] [0x101335cf0] activating connection: mach=true listener=false peer=false name=com.apple.IOSurface.Remote
+2026-10-26 22:27:10.744 A  ValoROAD[19186:e096] (RunningBoardServices) didChangeInheritances
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:1 [BB426DB6-FF4D-4992-ADE2-16AAC03072AA] (reporting strategy default)>
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:2 [F6CDD79C-ABC1-43CE-B43E-DB8D40D7A280] (reporting strategy default)>
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.network:activity] Set activity <nw_activity 50:1 [BB426DB6-FF4D-4992-ADE2-16AAC03072AA] (reporting strategy default)> as the global parent
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 1
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Ending task with identifier 1 and description: <_UIBackgroundTaskInfo: 0x60000170a9c0>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 691 (elapsed = 1), _expireHandler: (null)
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x600002102530> (used by background task with identifier 1: <_UIBackgroundTaskInfo: 0x60000170a9c0>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 691 (elapsed = 1))
+2026-10-26 22:27:10.745 Df ValoROAD[19186:e07d] [com.apple.BackgroundTasks:Framework] Handling app launch
+2026-10-26 22:27:10.749 A  ValoROAD[19186:e096] (RunningBoardServices) didChangeInheritances
+2026-10-26 22:27:10.751 Df ValoROAD[19186:e07d] [com.apple.UIKit:EventDeferring] [0x600002910c40] Scene target of event deferring environments did update: scene: 0x10120a4f0; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-10-26 22:27:10.752 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x10120a4f0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.753 Df ValoROAD[19186:e07d] [com.apple.UserNotifications:Connections] [com.neverthelessd.valoroad.iphone] Getting notification settings (async)
+2026-10-26 22:27:10.753 Df ValoROAD[19186:e07d] [com.apple.UIKit:UpdateScheduler] Target list changed: <CADisplay:LCD PurpleMain>
+2026-10-26 22:27:10.754 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:10.754 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.755 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.755 Df ValoROAD[19186:e096] [com.apple.xpc:connection] [0x10133a850] activating connection: mach=true listener=false peer=false name=com.apple.usernotifications.listener
+2026-10-26 22:27:10.756 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:10.756 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason removed: 12; deactivation reasons: 4128 -> 32; animating application lifecycle event: 1
+2026-10-26 22:27:10.757 Df ValoROAD[19186:e07d] [com.apple.KeyboardArbiter:Client] Send setDeactivating: N (-DeactivationReason:SuspendedEventsOnly)
+2026-10-26 22:27:10.757 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason removed: 5; deactivation reasons: 32 -> 0; animating application lifecycle event: 0
+2026-10-26 22:27:10.757 Df ValoROAD[19186:e07d] [com.apple.KeyboardArbiter:Client] startConnection
+2026-10-26 22:27:10.759 Df ValoROAD[19186:e07d] [com.apple.xpc:connection] [0x10120f800] activating connection: mach=true listener=false peer=false name=com.apple.UIKit.KeyboardManagement.hosted
+2026-10-26 22:27:10.762 Df ValoROAD[19186:e09a] [com.apple.network:] networkd_settings_read_from_file initialized networkd settings by reading plist directly
+2026-10-26 22:27:10.763 Df ValoROAD[19186:e07d] [com.apple.KeyboardArbiter:Client] handleKeyboardChange: set currentKeyboard:N (wasKeyboard:N)
+2026-10-26 22:27:10.764 Df ValoROAD[19186:e09a] [com.apple.network:] networkd_settings_read_from_file initialized networkd settings by reading plist directly
+2026-10-26 22:27:10.764 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyboardArbiterClientLog] isWritingToolsHandlingKeyboardTracking:Y (WT ready:Y, Arbiter ready:Y)
+2026-10-26 22:27:10.774 Df ValoROAD[19186:e096] [com.apple.UserNotifications:Connections] [com.neverthelessd.valoroad.iphone] Got notification settings [ hasResult: 1 hasCompletionHandler: 1 ]
+2026-10-26 22:27:10.774 Df ValoROAD[19186:e07d] [com.apple.UserNotifications:Connections] [com.neverthelessd.valoroad.iphone] Requesting authorization with options 7
+2026-10-26 22:27:10.775 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> resuming, timeouts(60.0, 604800.0) qos(0x19) voucher(<OS_voucher: 0x600002105400>) activity(00000000-0000-0000-0000-000000000000)
+2026-10-26 22:27:10.775 A  ValoROAD[19186:e09a] (CoreFoundation) Loading Preferences From User Session CFPrefsD
+2026-10-26 22:27:10.778 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Initializing NSHTTPCookieStorage singleton
+2026-10-26 22:27:10.778 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Initializing CFHTTPCookieStorage singleton
+2026-10-26 22:27:10.778 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Creating default cookie storage with process/bundle identifier
+2026-10-26 22:27:10.778 A  ValoROAD[19186:e09a] (libsystem_containermanager.dylib) container_system_group_path_for_identifier
+2026-10-26 22:27:10.778 Df ValoROAD[19186:e09a] [com.apple.containermanager:xpc] Requesting container lookup; class = 13, identifier = com.apple.nsurlsessiond, group_identifier = systemgroup.com.apple.nsurlstoragedresources, create = 1, temp = 0, euid = 501, uid = 501
+2026-10-26 22:27:10.779 A  ValoROAD[19186:e09a] (libsystem_containermanager.dylib) container_query_t
+2026-10-26 22:27:10.779 Df ValoROAD[19186:e09a] [com.apple.containermanager:xpc] Query; euid = 501, uid = 501, class = 13, identifier = [com.apple.nsurlsessiond](1), flags = 900000003
+2026-10-26 22:27:10.781 Df ValoROAD[19186:e09a] [com.apple.containermanager:unspecified] _container_query_get_result_at_index: success
+2026-10-26 22:27:10.781 A  ValoROAD[19186:e09a] (libsystem_containermanager.dylib) container_copy_object
+2026-10-26 22:27:10.781 Df ValoROAD[19186:e09a] [com.apple.containermanager:unspecified] container_system_group_path_for_identifier: success
+2026-10-26 22:27:10.781 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Initializing AlternativeServices Storage singleton
+2026-10-26 22:27:10.781 Df ValoROAD[19186:e09a] [com.apple.FileURL:default] kExcludedFromBackupXattrName set on path: /Users/runner/Library/Developer/CoreSimulator/Devices/E952A9B0-CC78-435C-BF08-06AD47FE1076/data/Containers/Data/Application/406194A1-0CFD-4732-B6DB-9B88A41E59EC/Library/HTTPStorages/com.neverthelessd.valoroad.iphone
+2026-10-26 22:27:10.792 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Connection 0: creating secure tcp or quic connection
+2026-10-26 22:27:10.797 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Connection 1: enabling TLS
+2026-10-26 22:27:10.797 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Connection 1: starting, TC(0x0)
+2026-10-26 22:27:10.797 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1 D29F6079-64C9-45A1-B46F-24D0835B68C8 Hostname#83c6e718:443 quic-connection, url: https://valorant-api.com/v1/version, definite, attribution: developer, context: com.apple.CFNetwork.NSURLSession.{D72F1495-2096-4A03-9BDC-5BB47D239225}{(null)}{Y}{2}{0x0} (private), proc: 1EE6CEC1-E37A-3B08-BAE0-E82D5C05F96F, delegated upid: 0] start
+2026-10-26 22:27:10.797 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1 Hostname#83c6e718:443 initial parent-flow ((null))] event: path:start @0.000s
+2026-10-26 22:27:10.799 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1 Hostname#83c6e718:443 waiting parent-flow (satisfied (Path is satisfied), interface: en0)] event: path:satisfied @0.001s, uuid: 1D2BE747-F496-4713-918E-325D3462F4C1
+2026-10-26 22:27:10.800 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1 Hostname#83c6e718:443 in_progress parent-flow (satisfied (Path is satisfied), interface: en0)] event: flow:start_connect @0.002s
+2026-10-26 22:27:10.800 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_connection_report_state_with_handler_on_nw_queue [C1] reporting state preparing
+2026-10-26 22:27:10.804 Df ValoROAD[19186:e07d] [com.apple.network:activity] <nw_activity 50:1 [BB426DB6-FF4D-4992-ADE2-16AAC03072AA] (global parent) (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 951ms
+2026-10-26 22:27:10.804 Df ValoROAD[19186:e07d] [com.apple.network:activity] <nw_activity 50:2 [F6CDD79C-ABC1-43CE-B43E-DB8D40D7A280] (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 951ms
+2026-10-26 22:27:10.804 Df ValoROAD[19186:e07d] [com.apple.network:activity] Unsetting the global parent activity <nw_activity 50:1 [BB426DB6-FF4D-4992-ADE2-16AAC03072AA] (global parent) (reporting strategy default) complete (reason success)>
+2026-10-26 22:27:10.804 Df ValoROAD[19186:e07d] [com.apple.network:activity] Unset the global parent activity
+2026-10-26 22:27:10.806 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1 Hostname#83c6e718:443 in_progress parent-flow (satisfied (Path is satisfied), interface: en0)] event: flow:start_child @0.008s
+2026-10-26 22:27:10.806 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1 Hostname#83c6e718:443 initial path ((null))] event: path:start @0.008s
+2026-10-26 22:27:10.806 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1 Hostname#83c6e718:443 waiting path (satisfied (Path is satisfied), interface: en0)] event: path:satisfied @0.008s, uuid: 1D2BE747-F496-4713-918E-325D3462F4C1
+2026-10-26 22:27:10.806 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1 Hostname#83c6e718:443 in_progress transform (satisfied (Path is satisfied), interface: en0)] event: transform:start @0.008s
+2026-10-26 22:27:10.807 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 initial path ((null))] event: path:start @0.009s
+2026-10-26 22:27:10.808 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 waiting path (satisfied (Path is satisfied), interface: en0)] event: path:satisfied @0.010s, uuid: 46E0A6BC-8C90-481A-8A20-EBC149FC3473
+2026-10-26 22:27:10.808 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 in_progress resolver (satisfied (Path is satisfied), interface: en0)] event: resolver:start_dns @0.010s
+2026-10-26 22:27:10.808 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> setting up Connection 1
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_endpoint_resolver_update [C1.1.1 Hostname#83c6e718:443 in_progress resolver (satisfied (Path is satisfied), interface: en0)] Adding endpoint handler for IPv4#807b85db:443
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_endpoint_resolver_update [C1.1.1 Hostname#83c6e718:443 in_progress resolver (satisfied (Path is satisfied), interface: en0)] Adding endpoint handler for IPv4#43f214bb:443
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_endpoint_resolver_update [C1.1.1 Hostname#83c6e718:443 in_progress resolver (satisfied (Path is satisfied), interface: en0)] Adding endpoint handler for IPv4#d0ee073b:443
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 in_progress resolver (satisfied (Path is satisfied), interface: en0)] event: resolver:receive_dns @0.011s
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 initial path ((null))] event: path:start @0.011s
+2026-10-26 22:27:10.809 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 waiting path (satisfied (Path is satisfied), interface: en0)] event: path:satisfied @0.011s, uuid: A01C0B07-86E3-433B-9246-347E00FAC213
+2026-10-26 22:27:10.811 Df ValoROAD[19186:e09a] [com.apple.network:quic] quic_conn_initialize_inner [C1.1.1.1:2] [-226a1e983e366ef3] created QUIC connection (spin bit enabled)
+2026-10-26 22:27:10.812 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:start_connect @0.014s
+2026-10-26 22:27:10.812 Df ValoROAD[19186:e09a] [com.apple.network:quic] quic_crypto_new_flow [C1.1.1.1:2] [-226a1e983e366ef3] TLS stream is: [C2]
+2026-10-26 22:27:10.812 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C2 CCC57087-DB65-45EB-8775-B6FEE4A61283 IPv4#807b85db:443 quic-connection, url: https://valorant-api.com/v1/version, tls, definite, attribution: developer, context: com.apple.CFNetwork.NSURLSession.{D72F1495-2096-4A03-9BDC-5BB47D239225}{(null)}{Y}{2}{0x0} (private), proc: 1EE6CEC1-E37A-3B08-BAE0-E82D5C05F96F, delegated upid: 0] start
+2026-10-26 22:27:10.812 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C2 IPv4#807b85db:443 initial socket-flow (satisfied (Path is satisfied), interface: en0)] event: path:start @0.000s
+2026-10-26 22:27:10.812 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C2 IPv4#807b85db:443 waiting socket-flow (satisfied (Path is satisfied), interface: en0)] event: path:satisfied @0.000s, uuid: A01C0B07-86E3-433B-9246-347E00FAC213
+2026-10-26 22:27:10.813 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C2 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:start_connect @0.000s
+2026-10-26 22:27:10.813 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_connection_report_state_with_handler_on_nw_queue [C2] reporting state preparing
+2026-10-26 22:27:10.813 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_flow_connected [C2 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] Transport protocol connected (quic-connection)
+2026-10-26 22:27:10.813 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C2 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:finish_transport @0.000s
+2026-10-26 22:27:10.814 Df ValoROAD[19186:e09a] [com.apple.network:boringssl] boringssl_session_apply_protocol_options_for_transport_block_invoke_2(2323) [C2:1][0x10103f930] TLS configured [min_version(0x0304) max_version(0x0304) name(redacted) tickets(false) false_start(false) enforce_ev(false) enforce_ats(false) ats_non_pfs_ciphersuite_allowed(false) ech(false) pqtls(true), pake(false)]
+2026-10-26 22:27:10.814 Df ValoROAD[19186:e09a] [com.apple.network:boringssl] boringssl_context_info_handler(2390) [C2:1][0x10103f930] Client handshake started
+2026-10-26 22:27:10.814 Df ValoROAD[19186:e09a] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS client enter_early_data
+2026-10-26 22:27:10.814 Df ValoROAD[19186:e09a] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS client read_server_hello
+2026-10-26 22:27:10.814 Df ValoROAD[19186:e09a] [com.apple.network:connection] nw_socket_handle_socket_event [C1.1.1.1:2] Socket received CONNECTED event
+2026-10-26 22:27:10.828 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_hello_retry_request
+2026-10-26 22:27:10.828 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_server_hello
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_encrypted_extensions
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_certificate_request
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_server_certificate
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_server_certificate_verify
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_evaluate_trust_async(1833) [C2:1][0x10103f930] Performing external trust evaluation
+2026-10-26 22:27:10.829 A  ValoROAD[19186:e096] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.829 A  ValoROAD[19186:e096] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.829 A  ValoROAD[19186:e096] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.829 Df ValoROAD[19186:e096] [com.apple.network:boringssl] boringssl_context_evaluate_trust_async_external(1818) [C2:1][0x10103f930] Asyncing for external verify block
+2026-10-26 22:27:10.830 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Connection 1: asked to evaluate TLS Trust
+2026-10-26 22:27:10.831 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> auth completion disp=1 cred=0x0
+2026-10-26 22:27:10.831 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Garbage collection for alternative services
+2026-10-26 22:27:10.831 Df ValoROAD[19186:e096] [com.apple.securityd:trust] (Trust 0x6000035096b0) No pending evals, starting
+2026-10-26 22:27:10.831 A  ValoROAD[19186:e096] (Security) SecTrustEvaluateIfNecessaryFastAsync
+2026-10-26 22:27:10.832 Df ValoROAD[19186:e096] [com.apple.securityd:keychain] System Keychain Always Supported set via feature flag to disabled
+2026-10-26 22:27:10.832 Df ValoROAD[19186:e096] [com.apple.xpc:connection] [0x1010478e0] activating connection: mach=true listener=false peer=false name=com.apple.trustd
+2026-10-26 22:27:10.832 Df ValoROAD[19186:e096] [com.apple.xpc:connection] [0x10121e030] activating connection: mach=true listener=false peer=false name=com.apple.trustd
+2026-10-26 22:27:10.832 Df ValoROAD[19186:e096] [com.apple.securityd:trust] (Trust 0x6000035096b0) Completed async eval kickoff
+2026-10-26 22:27:10.836 Df ValoROAD[19186:e09c] [com.apple.securityd:trust] (Trust 0x6000035096b0) trustd returned 4
+2026-10-26 22:27:10.836 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] System Trust Evaluation yielded status(0)
+2026-10-26 22:27:10.836 Df ValoROAD[19186:e09c] [com.apple.securityd:trust] (Trust 0x60000350a310) No pending evals, starting
+2026-10-26 22:27:10.836 A  ValoROAD[19186:e09c] (Security) SecTrustEvaluateIfNecessaryFastAsync
+2026-10-26 22:27:10.837 Df ValoROAD[19186:e09c] [com.apple.xpc:connection] [0x101229070] activating connection: mach=true listener=false peer=false name=com.apple.trustd
+2026-10-26 22:27:10.837 Df ValoROAD[19186:e09c] [com.apple.securityd:trust] (Trust 0x60000350a310) Completed async eval kickoff
+2026-10-26 22:27:10.837 Df ValoROAD[19186:e09c] [com.apple.xpc:connection] [0x10121e030] invalidated because the current process cancelled the connection by calling xpc_connection_cancel()
+2026-10-26 22:27:10.841 Df ValoROAD[19186:e096] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002600540; token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default; status: none> was:ancestor
+2026-10-26 22:27:10.841 Df ValoROAD[19186:e07d] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: 0; scene: UIWindowScene: 0x10120a4f0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.neverthelessd.valoroad.iphone-default
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.securityd:trust] (Trust 0x60000350a310) trustd returned 4
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Connection 1: TLS Trust result 0
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_evaluate_trust_async_external_block_invoke_3(1773) [C2:1][0x10103f930] Returning from external verify block with result: true
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_certificate_verify_callback(2014) [C2:1][0x10103f930] Certificate verification result: OK
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client read_server_finished
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client send_end_of_early_data
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client send_client_encrypted_extensions
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client send_client_certificate
+2026-10-26 22:27:10.842 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client complete_second_flight
+2026-10-26 22:27:10.842 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.842 A  ValoROAD[19186:e09c] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.842 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS 1.3 client done
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS client finish_client_handshake
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2407) [C2:1][0x10103f930] Client handshake state: TLS client done
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] boringssl_context_info_handler(2396) [C2:1][0x10103f930] Client handshake done
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.843 A  ValoROAD[19186:e09c] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:boringssl] nw_protocol_boringssl_signal_connected(895) [C2:1][0x10103f930] TLS connected [server(0) version(0x0304) ciphersuite(TLS_AES_256_GCM_SHA384) group(0x11ec) signature_alg(0x0403) alpn(h3) resumed(0) offered_ticket(0) in_early_data(0) early_data_accepted(0) false_started(0) ocsp_received(0) sct_received(0) connect_time(29ms) flight_time(15ms) rtt(14ms) write_stalls(0) read_stalls(5) pake(0x0000)]
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_flow_connected [C2 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] Output protocol connected (tls)
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e07d] [com.apple.Accessibility:AXCommon] Read Per-App on Init: Smart invert = (null)
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C2 IPv4#807b85db:443 ready socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:finish_connect @0.031s
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_connection_report_state_with_handler_on_nw_queue [C2] reporting state ready
+2026-10-26 22:27:10.843 Df ValoROAD[19186:e09c] [com.apple.xpc:connection] [0x101229070] invalidated because the current process cancelled the connection by calling xpc_connection_cancel()
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_pmtud_restart [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] PMTUD enabled, max PMTU: 1378, header size: 28, current PMTU 1228
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_crypto_tls_ready_inner [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] QUIC connection established in 31.777 ms, RTT 12.132 ms
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_flow_connected [C1.1.1.1 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] Transport protocol connected (quic-connection)
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:finish_transport @0.046s
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_flow_connected [C1.1.1.1 IPv4#807b85db:443 in_progress socket-flow (satisfied (Path is satisfied), interface: en0)] Output protocol connected (CFNetworkConnection-2240409723)
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 ready socket-flow (satisfied (Path is satisfied), interface: en0)] event: flow:child_finish_connect @0.046s
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 ready resolver (satisfied (Path is satisfied), interface: en0)] event: flow:child_finish_connect @0.046s
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1 Hostname#83c6e718:443 ready transform (satisfied (Path is satisfied), interface: en0)] event: flow:child_finish_connect @0.046s
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_flow_connected [C1 IPv4#807b85db:443 in_progress parent-flow (satisfied (Path is satisfied), interface: en0)] Output protocol connected (endpoint_flow)
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1 IPv4#807b85db:443 ready parent-flow (satisfied (Path is satisfied), interface: en0)] event: flow:finish_connect @0.046s
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:connection] nw_connection_report_state_with_handler_on_nw_queue [C1] reporting state ready
+2026-10-26 22:27:10.844 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_migration_path_event_block_invoke [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] path bebb66693efaa475 over en0 received event established
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_migration_evaluate_primary [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] promoted path 0x101245870 over en0 to primary
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:] nw_protocol_instance_report_ready [C1.1.1.1:2] Calling notify with interface en0 for flow_registration 7B47A098-800B-4B82-8A47-1B09A8948AAD
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1.1.1 IPv4#807b85db:443 ready socket-flow (satisfied (Path is satisfied), interface: en0)] event: path:migrated @0.047s, uuid: A01C0B07-86E3-433B-9246-347E00FAC213
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1.1 Hostname#83c6e718:443 ready resolver (satisfied (Path is satisfied), interface: en0)] event: path:migrated @0.047s, uuid: 46E0A6BC-8C90-481A-8A20-EBC149FC3473
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1.1 Hostname#83c6e718:443 ready transform (satisfied (Path is satisfied), interface: en0)] event: path:migrated @0.047s, uuid: 1D2BE747-F496-4713-918E-325D3462F4C1
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1 IPv4#807b85db:443 ready parent-flow (satisfied (Path is satisfied), interface: en0)] event: path:migrated @0.047s, uuid: 1D2BE747-F496-4713-918E-325D3462F4C1
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_migration_evaluate [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] evaluating path migration
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_migration_evaluate_block_invoke [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] path bebb66693efaa475 state validated (0), ifname en0, primary? 1, initial? 1, fallback? 0, preferred? 0 lossy? 0
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:quic] quic_migration_evaluate [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] current path is usable, no strong fallback or we are probing
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Connection 1: connected successfully
+2026-10-26 22:27:10.845 E  ValoROAD[19186:e09c] [com.apple.network:connection] nw_connection_copy_connected_local_endpoint_block_invoke [C1] Connection has no local endpoint
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Connection 1: TLS handshake complete
+2026-10-26 22:27:10.845 E  ValoROAD[19186:e09c] [com.apple.network:connection] nw_connection_copy_connected_local_endpoint_block_invoke [C1] Connection has no local endpoint
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Connection 1: ready C(N) E(N)
+2026-10-26 22:27:10.845 Df ValoROAD[19186:e09c] [com.apple.network:connection] [C1] event: client:connection_reused @0.047s
+2026-10-26 22:27:10.846 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> now using Connection 1
+2026-10-26 22:27:10.846 Df ValoROAD[19186:e09c] [com.apple.cfnetwork:h3stream] 0x101334018 ID=0 Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> sent request, body N 0
+2026-10-26 22:27:10.852 A  ValoROAD[19186:e09c] (RunningBoardServices) didChangeInheritances
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.854 Df ValoROAD[19186:e09d] [com.apple.network:boringssl] boringssl_context_new_session_handler(1533) [C2:1][0x10103f930] Asyncing for session update block
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyAttributes
+2026-10-26 22:27:10.854 A  ValoROAD[19186:e09d] (Security) SecKeyCopyPublicBytes
+2026-10-26 22:27:10.854 Df ValoROAD[19186:e09d] [com.apple.network:boringssl] boringssl_context_new_session_handler(1533) [C2:1][0x10103f930] Asyncing for session update block
+2026-10-26 22:27:10.854 Df ValoROAD[19186:e09d] [com.apple.network:boringssl] nw_protocol_boringssl_signal_connected(895) [C2:1][0x10103f930] TLS connected [server(0) version(0x0304) ciphersuite(TLS_AES_256_GCM_SHA384) group(0x11ec) signature_alg(0x0403) alpn(h3) resumed(0) offered_ticket(0) in_early_data(0) early_data_accepted(0) false_started(0) ocsp_received(0) sct_received(0) connect_time(29ms) flight_time(15ms) rtt(14ms) write_stalls(0) read_stalls(5) pake(0x0000)]
+2026-10-26 22:27:10.854 Df ValoROAD[19186:e09d] [com.apple.network:connection] nw_flow_connected [C2 IPv4#807b85db:443 ready socket-flow (satisfied (Path is satisfied), interface: en0)] Output protocol connected (tls)
+2026-10-26 22:27:10.855 Df ValoROAD[19186:e09d] [com.apple.network:quic] quic_stream_create_inbound [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] creating inbound stream 3
+2026-10-26 22:27:10.855 Df ValoROAD[19186:e09d] [com.apple.network:quic] quic_stream_create_inbound [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] creating inbound stream 7
+2026-10-26 22:27:10.855 Df ValoROAD[19186:e09d] [com.apple.network:quic] quic_stream_create_inbound [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] creating inbound stream 11
+2026-10-26 22:27:10.856 Df ValoROAD[19186:e09d] [com.apple.network:quic] quic_stream_create_inbound [C1.1.1.1:2] [-014c43e28cdc203ed64891e2dbdcc33ed6edc49a] creating inbound stream 15
+2026-10-26 22:27:10.857 Df ValoROAD[19186:e09d] [com.apple.network:boringssl] boringssl_context_new_session_handler_block_invoke(1536) [C2:1][0x10103f930] Returning from session update block
+2026-10-26 22:27:10.858 Df ValoROAD[19186:e09d] [com.apple.network:boringssl] boringssl_context_new_session_handler_block_invoke(1536) [C2:1][0x10103f930] Returning from session update block
+2026-10-26 22:27:10.873 Df ValoROAD[19186:e09a] [com.apple.cfnetwork:h3stream] 0x101334018 ID=0 Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> received response, status 200 content U
+2026-10-26 22:27:10.873 A  ValoROAD[19186:e09a] (Security) SecTrustEvaluateIfNecessary
+2026-10-26 22:27:10.873 Df ValoROAD[19186:e09a] [com.apple.xpc:connection] [0x10133ca80] activating connection: mach=true listener=false peer=false name=com.apple.trustd
+2026-10-26 22:27:10.876 Df ValoROAD[19186:e09a] [com.apple.xpc:connection] [0x10133ca80] invalidated because the current process cancelled the connection by calling xpc_connection_cancel()
+2026-10-26 22:27:10.876 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> response ended
+2026-10-26 22:27:10.876 Df ValoROAD[19186:e09a] [com.apple.network:connection] [C1] event: client:connection_idle @0.078s
+2026-10-26 22:27:10.876 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> done using Connection 1
+2026-10-26 22:27:10.884 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Summary] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> summary for task success {transaction_duration_ms=106, response_status=200, connection=1, protocol="h3", domain_lookup_duration_ms=1, connect_duration_ms=32, secure_connection_duration_ms=31, private_relay=false, request_start_ms=68, request_duration_ms=0, response_start_ms=95, response_duration_ms=3, request_bytes=77, request_throughput_kbps=2556, response_bytes=823, response_throughput_kbps=1902, cache_hit=false}
+2026-10-26 22:27:10.884 Df ValoROAD[19186:e09c] [com.apple.CoreAnalytics:client] No XPC connection in Simulator
+2026-10-26 22:27:10.884 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Task <9000D04B-CD98-4855-A7A6-B000F483225A>.<1> finished successfully
+2026-10-26 22:27:10.885 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> resuming, timeouts(60.0, 604800.0) qos(0x19) voucher(<OS_voucher: 0x600002105400>) activity(00000000-0000-0000-0000-000000000000)
+2026-10-26 22:27:10.885 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Default] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> resuming, timeouts(60.0, 604800.0) qos(0x19) voucher(<OS_voucher: 0x600002105400>) activity(00000000-0000-0000-0000-000000000000)
+2026-10-26 22:27:10.885 Df ValoROAD[19186:e09c] [com.apple.CFNetwork:Default] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> resuming, timeouts(60.0, 604800.0) qos(0x19) voucher(<OS_voucher: 0x600002105400>) activity(00000000-0000-0000-0000-000000000000)
+2026-10-26 22:27:10.885 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> resuming, timeouts(60.0, 604800.0) qos(0x19) voucher(<OS_voucher: 0x600002105400>) activity(00000000-0000-0000-0000-000000000000)
+2026-10-26 22:27:10.886 Df ValoROAD[19186:e096] [com.apple.network:connection] [C1] event: client:connection_reused @0.088s
+2026-10-26 22:27:10.886 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> now using Connection 1
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> now using Connection 1
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> now using Connection 1
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> now using Connection 1
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.cfnetwork:h3stream] 0x101345678 ID=4 Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> sent request, body N 0
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.cfnetwork:h3stream] 0x101347268 ID=8 Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> sent request, body N 0
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.cfnetwork:h3stream] 0x101347768 ID=12 Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> sent request, body N 0
+2026-10-26 22:27:10.887 Df ValoROAD[19186:e096] [com.apple.cfnetwork:h3stream] 0x1013486a8 ID=16 Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> sent request, body N 0
+2026-10-26 22:27:10.906 Df ValoROAD[19186:e095] [com.apple.cfnetwork:h3stream] 0x101347768 ID=12 Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> received response, status 200 content U
+2026-10-26 22:27:10.907 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Default] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> response ended
+2026-10-26 22:27:10.907 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Default] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> done using Connection 1
+2026-10-26 22:27:10.907 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Summary] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> summary for task success {transaction_duration_ms=21, response_status=200, connection=1, reused=1, reused_after_ms=0, request_start_ms=0, request_duration_ms=0, response_start_ms=20, response_duration_ms=0, request_bytes=89, request_throughput_kbps=4022, response_bytes=23232, response_throughput_kbps=217141, cache_hit=false}
+2026-10-26 22:27:10.907 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Default] Task <113FB28E-F465-484D-9EFF-B36A2B026204>.<5> finished successfully
+2026-10-26 22:27:10.915 Df ValoROAD[19186:e09a] [com.apple.cfnetwork:h3stream] 0x101345678 ID=4 Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> received response, status 200 content U
+2026-10-26 22:27:10.917 Df ValoROAD[19186:e09a] [com.apple.cfnetwork:h3stream] 0x101347268 ID=8 Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> received response, status 200 content U
+2026-10-26 22:27:10.925 Df ValoROAD[19186:e09a] [com.apple.cfnetwork:h3stream] 0x1013486a8 ID=16 Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> received response, status 200 content U
+2026-10-26 22:27:10.925 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> response ended
+2026-10-26 22:27:10.925 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> done using Connection 1
+2026-10-26 22:27:10.925 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Summary] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> summary for task success {transaction_duration_ms=39, response_status=200, connection=1, reused=1, reused_after_ms=0, request_start_ms=0, request_duration_ms=0, response_start_ms=38, response_duration_ms=0, request_bytes=80, request_throughput_kbps=6595, response_bytes=1057, response_throughput_kbps=29154, cache_hit=false}
+2026-10-26 22:27:10.925 Df ValoROAD[19186:e095] [com.apple.CFNetwork:Default] Task <64D24C29-D4E1-4768-B0EC-C07A19567F54>.<4> finished successfully
+2026-10-26 22:27:10.926 Df ValoROAD[19186:e096] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 2
+2026-10-26 22:27:10.926 Df ValoROAD[19186:e096] [com.apple.UIKit:BackgroundTask] Ending task with identifier 2 and description: <_UIBackgroundTaskInfo: 0x600001719040>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 691 (elapsed = 1), _expireHandler: <__NSGlobalBlock__: 0x1e61729e0>
+2026-10-26 22:27:10.926 Df ValoROAD[19186:e096] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x600002102530> (used by background task with identifier 2: <_UIBackgroundTaskInfo: 0x600001719040>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 691 (elapsed = 1))
+2026-10-26 22:27:10.927 Df ValoROAD[19186:e096] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x600002102530> for task identifier: 2
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> response ended
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> done using Connection 1
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Summary] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> summary for task success {transaction_duration_ms=74, response_status=200, connection=1, reused=1, reused_after_ms=10, request_start_ms=0, request_duration_ms=0, response_start_ms=28, response_duration_ms=45, request_bytes=89, request_throughput_kbps=1396, response_bytes=443764, response_throughput_kbps=78405, cache_hit=false}
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <E06A1240-239E-4609-A39E-049AE78295E0>.<3> finished successfully
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> response ended
+2026-10-26 22:27:10.960 Df ValoROAD[19186:e096] [com.apple.network:connection] [C1] event: client:connection_idle @0.163s
+2026-10-26 22:27:10.963 Df ValoROAD[19186:e096] [com.apple.CFNetwork:Default] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> done using Connection 1
+2026-10-26 22:27:10.965 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Summary] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> summary for task success {transaction_duration_ms=79, response_status=200, connection=1, reused=1, reused_after_ms=0, request_start_ms=0, request_duration_ms=0, response_start_ms=31, response_duration_ms=45, request_bytes=89, request_throughput_kbps=2599, response_bytes=436599, response_throughput_kbps=76544, cache_hit=false}
+2026-10-26 22:27:10.965 Df ValoROAD[19186:e09a] [com.apple.CFNetwork:Default] Task <98F41332-5D2C-4978-B115-2F90081DFBED>.<2> finished successfully
+2026-10-26 22:27:10.979 Df ValoROAD[19186:e07d] [com.apple.runningboard:connection] Creating side-channel connection to com.apple.runningboard
+2026-10-26 22:27:10.979 Df ValoROAD[19186:e07d] [com.apple.xpc:connection] [0x101041080] activating connection: mach=true listener=false peer=false name=com.apple.runningboard
+2026-10-26 22:27:10.980 Df ValoROAD[19186:e07d] [com.apple.runningboard:process] Hit the server for a process handle 2ca571300004af2 that resolved to: [app<com.neverthelessd.valoroad.iphone((null))>:19186]
+2026-10-26 22:27:10.980 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:10.980 Df ValoROAD[19186:e07d] [com.apple.UIKit:UIAlertControllerStackManager] canShowAlerts Updated: <FBSSceneSettingsDiff: 0x6000017fe280; UIApplicationSceneSettings> {
+    subclassSettings = <BSSettingsDiff: 0x600000c85260> {
+        canShowAlerts = NO;
+    };
+}
+2026-10-26 22:27:10.981 Df ValoROAD[19186:e07d] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 2, <UIWindowScene: 0x10120a4f0> (778979D6-E0E4-4740-8CB8-ECC9ADC1BD34)
+2026-10-26 22:27:10.982 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:10.982 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason added: 13; deactivation reasons: 0 -> 8192; animating application lifecycle event: 0
+2026-10-26 22:27:10.983 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 13; deactivation reasons: 8192
+2026-10-26 22:27:10.984 Df ValoROAD[19186:e07d] [com.apple.UIKit:Application] Deactivation reason added: 12; deactivation reasons: 8192 -> 12288; animating application lifecycle event: 0
+2026-10-26 22:27:10.996 Df ValoROAD[19186:e07d] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.neverthelessd.valoroad.iphone-default  persistentID: 778979D6-E0E4-4740-8CB8-ECC9ADC1BD34
+2026-10-26 22:27:11.086 Df ValoROAD[19186:e07d] [com.apple.UserNotifications:Connections] [com.neverthelessd.valoroad.iphone] Removing 2 pending notification requests with identifiers (
+    "0465-D31E",
+    "AEFA-2124"
+)
+2026-10-26 22:27:11.487 A  ValoROAD[19186:e096] (RunningBoardServices) didChangeInheritances

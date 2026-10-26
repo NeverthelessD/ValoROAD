@@ -1,0 +1,10 @@
+PASS  화면 01-store-dark
+PASS  화면 02-store-hit
+PASS  화면 03-store-light
+PASS  화면 04-store-bundle
+PASS  화면 05-store-night
+PASS  화면 06-store-expired
+PASS  화면 07-preview
+PASS  화면 08-wishlist
+PASS  화면 09-settings
+PASS  화면 10-login

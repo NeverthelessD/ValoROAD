@@ -1,0 +1,22 @@
+total 43144
+-rwxr-xr-x   1 runner  staff     33144 Oct 26 22:17 __preview.dylib
+drwxr-xr-x  21 runner  staff       672 Oct 26 22:19 .
+drwxr-xr-x@  4 runner  staff       128 Oct 26 22:17 ..
+-rw-r--r--   1 runner  staff     53092 Oct 26 22:17 anton-regular.ttf
+-rw-r--r--   1 runner  staff      8041 Oct 26 22:17 AppIcon60x60@2x.png
+-rw-r--r--   1 runner  staff     10326 Oct 26 22:17 AppIcon76x76@2x~ipad.png
+-rw-r--r--   1 runner  staff     67064 Oct 26 22:19 Assets.car
+-rw-r--r--   1 runner  staff     57536 Oct 26 22:17 barlowcondensed-bold.ttf
+-rw-r--r--   1 runner  staff     52940 Oct 26 22:17 barlowcondensed-medium.ttf
+-rw-r--r--   1 runner  staff     57440 Oct 26 22:17 barlowcondensed-semibold.ttf
+-rw-r--r--   1 runner  staff   2760800 Oct 26 22:17 ibmplexsanskr-bold.ttf
+-rw-r--r--   1 runner  staff   2752028 Oct 26 22:17 ibmplexsanskr-medium.ttf
+-rw-r--r--   1 runner  staff   2682016 Oct 26 22:17 ibmplexsanskr-regular.ttf
+-rw-r--r--   1 runner  staff   2739944 Oct 26 22:17 ibmplexsanskr-semibold.ttf
+-rw-r--r--   1 runner  staff      1791 Oct 26 22:19 Info.plist
+-rw-r--r--   1 runner  staff      4484 Oct 26 22:17 LICENSE-Anton.txt
+-rw-r--r--   1 runner  staff      4377 Oct 26 22:17 LICENSE-BarlowCondensed.txt
+-rw-r--r--   1 runner  staff      4456 Oct 26 22:17 LICENSE-IBMPlexSansKR.txt
+-rw-r--r--   1 runner  staff         8 Oct 26 22:19 PkgInfo
+-rwxr-xr-x   1 runner  staff     72408 Oct 26 22:18 ValoROAD
+-rwxr-xr-x   1 runner  staff  10683560 Oct 26 22:18 ValoROAD.debug.dylib

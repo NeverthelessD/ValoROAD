@@ -1,0 +1,5 @@
+total 4392
+drwxr-xr-x  4 runner  staff      128 Oct 26 22:27 .
+drwxr-xr-x  3 runner  staff       96 Oct 26 22:24 ..
+-rw-r--r--  1 runner  staff  2243422 Oct 26 22:27 content.json
+-rw-r--r--  1 runner  staff     1807 Oct 26 22:27 log.txt

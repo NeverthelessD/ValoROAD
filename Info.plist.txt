@@ -1,0 +1,74 @@
+Dict {
+    CFBundleInfoDictionaryVersion = 6.0
+    DTPlatformVersion = 26.2
+    CFBundleName = ValoROAD
+    DTSDKName = iphonesimulator26.2
+    CFBundleIcons = Dict {
+        CFBundlePrimaryIcon = Dict {
+            CFBundleIconFiles = Array {
+                AppIcon60x60
+            }
+            CFBundleIconName = AppIcon
+        }
+    }
+    UILaunchScreen = Dict {
+        UIColorName = LaunchBackground
+    }
+    UIStatusBarStyle = UIStatusBarStyleDefault
+    CFBundleDisplayName = ValoROAD
+    LSRequiresIPhoneOS = true
+    UIBackgroundModes = Array {
+        fetch
+    }
+    DTSDKBuild = 23C57
+    NSAccentColorName = AccentColor
+    CFBundleShortVersionString = 1.0.1
+    CFBundleSupportedPlatforms = Array {
+        iPhoneSimulator
+    }
+    UISupportedInterfaceOrientations = Array {
+        UIInterfaceOrientationPortrait
+        UIInterfaceOrientationLandscapeLeft
+        UIInterfaceOrientationLandscapeRight
+    }
+    BuildMachineOSBuild = 24G830
+    DTPlatformBuild = 23C57
+    BGTaskSchedulerPermittedIdentifiers = Array {
+        com.neverthelessd.valoroad.iphone.refresh
+    }
+    CFBundlePackageType = APPL
+    CFBundleDevelopmentRegion = ko
+    DTXcodeBuild = 17C529
+    CFBundleVersion = 1
+    MinimumOSVersion = 17.0
+    UIAppFonts = Array {
+        anton-regular.ttf
+        barlowcondensed-bold.ttf
+        barlowcondensed-medium.ttf
+        barlowcondensed-semibold.ttf
+        ibmplexsanskr-bold.ttf
+        ibmplexsanskr-medium.ttf
+        ibmplexsanskr-regular.ttf
+        ibmplexsanskr-semibold.ttf
+    }
+    UIDeviceFamily = Array {
+        1
+    }
+    CFBundleIdentifier = com.neverthelessd.valoroad.iphone
+    UIApplicationSceneManifest = Dict {
+        UIApplicationSupportsMultipleScenes = false
+    }
+    DTXcode = 2630
+    CFBundleExecutable = ValoROAD
+    CFBundleIcons~ipad = Dict {
+        CFBundlePrimaryIcon = Dict {
+            CFBundleIconFiles = Array {
+                AppIcon60x60
+                AppIcon76x76
+            }
+        }
+    }
+    DTPlatformName = iphonesimulator
+    ITSAppUsesNonExemptEncryption = false
+    DTCompiler = com.apple.compilers.llvm.clang.1_0
+}
