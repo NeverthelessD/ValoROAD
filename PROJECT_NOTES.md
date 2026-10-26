@@ -27,12 +27,10 @@ macOS (Apple Silicon). made by. Nevertheless_D
 
 ### 아이폰 버전 (2026-10-26 시작)
 - [x] i0. 아이폰 디자인 시안 → 사용자 확정 (2026-10-26, Design 캔버스 'ValoROAD 아이폰 시안' v1)
-- ⏸ 2026-10-26 일시 멈춤: 사용자 맥에 Xcode 관련 문제. 설치 방법 다시 정하기로 —
-  ① AltStore/Sideloadly + 빌드 서버가 만든 .ipa (무료, 7일) ② TestFlight (연 99달러, 맥 필요 없음, 빌드 서버가 업로드 — 사용자가 궁금해함)
-  만들던 코드는 `ios-wip` 브랜치(아이콘 · 글꼴 ttf · Info.plist · Support.swift). 구조: 네이티브 Swift/SwiftUI 로 엔진 로직 옮기기.
-- [ ] i1. iOS 앱(SwiftUI 또는 UIKit + WKWebView) 뼈대 · 라이엇 로그인 · 키체인 · 상점
-- [ ] i2. 위시리스트 · 미리보기 · 알림(BGAppRefresh) · 남은 사용 기간 표시
-- [ ] i3. 맥 빌드 서버에서 시뮬레이터 빌드 확인 → 사용자 맥에서 Xcode 로 설치 안내
+- [x] i1. iOS 앱(네이티브 SwiftUI) 뼈대 · 라이엇 로그인 · 키체인 · 상점 (2026-10-26, 사용자 맥에 Xcode 설치 → 무료 애플 ID 방식으로 진행)
+- [x] i2. 위시리스트 · 미리보기 · 알림(BGAppRefresh) · 남은 사용 기간 표시
+- [x] i3. 맥 빌드 서버(build-ios.yml)에서 시뮬레이터 · 실제 아이폰용 빌드 통과, 시험 화면 확인 → 설치 안내 이미지 + ValoROAD-iPhone.zip 전달
+- [ ] i4. 사용자 아이폰에서 실제 설치 · 라이엇 로그인 · 상점 · 다음 날 자동 로그인 · 알림 확인
 
 ### 작업 기록
 - 2026-10-24 디자인 확정. 사용자 요청 정리: 앱 이름 ValoROAD, 발로란트/FPS 느낌, 계정 3개 저장 + 자동 로그인 유지,
@@ -64,6 +62,11 @@ macOS (Apple Silicon). made by. Nevertheless_D
   아이폰 시안 v1(390×844 기준): ① 상점 다크(위 3칸 계정 전환 · 지갑 줄 · 2열 카드 · 번들 · 밤시장 · 아래 탭바) ② 라이트
   ③ 미리보기(레벨 영상 · 변형 견본 · 가격 · 위시 버튼) ④ 계정 추가(라이엇 공식 로그인 화면 자리) ⑤ 위시리스트 · 알림 · 잠금화면 알림 미리보기
   ⑥ 설정: **남은 사용 기간(APP PASS, 7칸 막대)** — 앱 안의 embedded.mobileprovision ExpirationDate 로 계산, 하루 전 로컬 알림.
+
+- 2026-10-26 아이폰 v1.0.0: 네이티브 SwiftUI 로 맥 엔진 로직을 옮김(ios/). 계정 3개 · 키체인 쿠키 자동 로그인 · 상점 v3 · 지갑 · 밤시장 · 번들 ·
+  valorant-api 스킨 정보/이미지 캐시 · 위시리스트(검색 · 무기 종류) · 미리보기(레벨 영상 AVPlayer · 변형) · 설정(APP PASS 7칸 막대, embedded.mobileprovision) ·
+  진단 · 로컬 알림(위시 적중 · 사용 기간 하루 전/2시간 전) · BGAppRefresh(다음 오전 9시 + 90초). 빌드 서버 Xcode 26.3 / iPhone 17 Pro(iOS 26.2) 시뮬레이터에서
+  sim=ok device=ok shots=ok. 무료 애플 ID 설치 안내: docs/ValoROAD_아이폰_설치.png (python3 scripts/ios-guide.py).
 
 ---
 
@@ -108,6 +111,20 @@ macOS (Apple Silicon). made by. Nevertheless_D
   RP e59aa87c-4cbf-517a-5983-6e81511be9b7 · KC 85ca954a-41f2-ce94-9b45-8ca3dd39a00d
 - 스킨 데이터: `https://valorant-api.com/v1/weapons?language=ko-KR`(+en-US 로 영어 무기 이름) · contenttiers · bundles. 버전이 바뀔 때만 다시 받아 Support/content 에 줄여서 저장.
   이미지는 media.valorant-api.com 만 엔진이 받아 Support/cache/img 에 저장해 보여 줌(/api/img).
+
+## 아이폰 (ios/)
+
+- 번들 id `com.neverthelessd.valoroad.iphone` (TestFlight 로 바꿔도 그대로), 최소 iOS 17, 아이폰 전용, 서명 팀은 사용자가 Xcode 에서 Personal Team 선택.
+- Xcode 16+ '폴더 동기화' 프로젝트(objectVersion 77): ios/ValoROAD 폴더에 파일을 넣으면 자동으로 들어가요(Info.plist 만 제외). pbxproj 는 거의 안 고침.
+- 스킴 실행 설정 Release · 디버거 없음 → 케이블을 뽑아도 앱이 계속 켜져 있음.
+- 파일: ValoROADApp(앱 · 탭바 · Router · 알림 대리자) · AppModel(계정 · 상점 · 위시 · 알림 · 뒤에서 확인 · 진단) · Riot(라이엇 연결 · 쿠키 · buildStore) ·
+  Content(valorant-api) · Images(이미지 캐시) · Keychain · AppPass(남은 기간) · Demo(-demo 시험 모드) · Theme(색 · 글꼴 · Notch 모양) ·
+  StoreScreen · WishlistScreen · PreviewSheet · SettingsScreen · LoginScreen(WKWebView, 비영구 저장소, 아이폰 사파리 UA) · Support(경로 · 기록 · 숫자)
+- 빌드 서버: `.github/workflows/build-ios.yml` (main · ios-wip 의 ios/ 가 바뀌면) → scripts/ci-ios.sh → `ci-results-ios` 브랜치
+  (status.json: sim · device · shots, build-*-errors.txt, shots/*.png, app-log.txt). 시험 인자: -demo -tab store|wishlist|settings -theme dark|light
+  -active 1|2|3 -scroll bundle|night -preview -login
+- 사용자에게 줄 때: ios/ 의 ValoROAD.xcodeproj + ValoROAD 폴더 + 설치 안내 이미지를 ValoROAD-iPhone.zip 으로 묶어 보냄(사용자 문서 폴더에 둠).
+  버전은 ios/VERSION 과 pbxproj MARKETING_VERSION 을 함께 올림.
 
 ## 구조
 
