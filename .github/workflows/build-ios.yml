@@ -1,0 +1,33 @@
+# ValoROAD 아이폰 빌드 서버
+# 아이폰 앱(ios/)이 바뀌면, 실제 맥에서 Xcode 로 빌드(시뮬레이터 · 실제 아이폰용, 서명 없이)하고 시뮬레이터에서 화면을 찍어요.
+# 결과(빌드 기록 · 오류 · 스크린샷)는 ci-results-ios 브랜치에 올라가요. 실제 아이폰 설치는 사용자 맥의 Xcode 로 해요.
+name: build-ios
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, ios-wip]
+    paths:
+      - 'ios/**'
+      - 'scripts/ci-ios.sh'
+      - '.github/workflows/build-ios.yml'
+permissions:
+  contents: write
+concurrency:
+  group: build-ios
+  cancel-in-progress: true
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pick the newest Xcode
+        run: |
+          ls -d /Applications/Xcode*.app || true
+          X=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] && sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+      - name: Build, run in the simulator, publish results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci-ios.sh

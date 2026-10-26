@@ -3,3 +3,7 @@ dist/
 .DS_Store
 node_modules/
 ci-out/
+build/
+ci-out-ios/
+xcuserdata/
+*.xcuserstate
