@@ -12,6 +12,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
 
 ## 진행 사항
 
+- **2026-10-29 내려받기용 zip (사용자 요청)**: 저장소 `download/` 폴더에 `ValoROAD.zip`(앱 + 사용 가이드)를 올리고, README 맨 위 '앱 받기' 링크(`raw/main/download/ValoROAD.zip`)로 바로 받게 했어요. 예전 버전 zip 은 지웠어요 (저장소 `releases/` 에도 업데이트용 최신판만).
 작업이 중간에 끊기면 아래 체크리스트에서 **처음으로 체크 안 된 항목부터** 이어서 하면 돼요. 각 단계가 끝날 때마다 커밋 · 푸시.
 
 - [x] 0. 디자인 시안 → 사용자 확정 (2026-10-24, Design 캔버스 'ValoROAD 디자인 시안' v2 + 아이콘 B · SCOPE)
@@ -77,6 +78,7 @@ macOS (Apple Silicon). made by. Nevertheless_D
 
 ## 결정 사항
 
+- **GitHub 에는 늘 최신판 zip 1개만**: 업데이트를 내보낼 때마다 `scripts/publish-download.sh` 가 앱 + 가이드 zip 을 `download/` 에 정해진 이름으로 바꿔 넣고 다른 파일은 지워요(release.sh 가 자동으로 불러요. GitHub 릴리스 페이지는 이 작업 환경에서 만들 수 없어 저장소 폴더를 써요). `releases/` 의 업데이트용 zip 도 현재 버전만 남겨요 — 설치된 앱은 latest.json 이 가리키는 zip 만 받고, '되돌리기'는 맥 안의 백업을 써서 예전 zip 이 필요 없어요.
 - 방식: MSROAD 1.1.0~ 와 같은 **Dock 에 보이는 정식 맥 앱** (road-mac-app 스킬). Swift 껍데기 + WKWebView, Go 엔진은 앱의 자식으로만.
 - 주소 127.0.0.1:47931 + 토큰. 환경 변수 접두사 `VALOROAD_`. 엔진 파일 `valoroad-engine`. 번들 id `com.nevertheless-d.valoroad`.
 - 사용자에게 보이는 곳에는 GitHub · 저장소 이름을 쓰지 않는다. 화면 아래 · 앱 정보 · 가이드에 `made by. Nevertheless_D`.
