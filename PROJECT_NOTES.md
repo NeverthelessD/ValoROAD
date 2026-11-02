@@ -73,6 +73,12 @@ macOS (Apple Silicon). made by. Nevertheless_D
   **업데이트 전달 방식**: .xcodeproj(서명 팀 · 번들 id 가 든 파일)는 그대로 두고 ValoROAD 폴더만 바꿔 넣게 함 → ValoROAD-iPhone-x.y.z-업데이트.zip.
   Xcode 26 은 Window 메뉴에 Devices and Simulators 가 없음 → 기기 고르는 곳 › Manage Run Destinations… 로 안내. 무선 설치는 첫 케이블 설치 뒤 자동.
 
+- 2026-11-02 사용자: 7일째 낮에 Xcode ▶ 로 다시 설치했는데 앱에 '1일 남음' 그대로. 원인: 무료 애플 ID 허가서(7일)가 아직 안 끝났으면
+  Xcode 가 같은 허가서를 다시 씀 → 끝나는 날짜도 처음 설치(10-26 밤) 그대로. 업데이트(1.0.1) 때 "7일 새로 시작"이라고 한 안내도 틀렸음.
+  새 7일을 받으려면 ① 끝난 뒤 ▶ 또는 ② ~/Library/Developer/Xcode/UserData/Provisioning Profiles(예전: ~/Library/MobileDevice/Provisioning Profiles)
+  의 .mobileprovision 을 지우고 ▶. 사용자는 ① 선택. **할 일**: 앱의 '하루 전' 알림 · APP PASS 안내 · 설치 안내 이미지의 "끝나기 전에 ▶ 하면 다시 7일"을 고칠 것
+  (사용자에게 제안해 둠, 아직 요청 없음).
+
 ---
 
 ## 결정 사항
