@@ -34,6 +34,9 @@ macOS (Apple Silicon). made by. Nevertheless_D
 - [ ] i4. 사용자 아이폰에서 실제 설치 · 라이엇 로그인 · 상점 · 다음 날 자동 로그인 · 알림 확인
 
 ### 작업 기록
+- 2026-11-02 v1.0.4 — 사용자 제보(CUTROAD 에서): Spotlight 에 같은 앱이 두 개(응용 프로그램 + 백업 폴더) 보임. 업데이트 때 이전 버전을 보관하는
+  폴더를 `Support/backup.noindex/ValoROAD.app`(.noindex = Spotlight 가 안 찾음)로 바꾸고, 바꾸기 · 되돌리기 뒤 `lsregister -u` 로 보관본을 macOS 목록에서 지움.
+  엔진이 켜질 때 예전 `Support/backup/ValoROAD.app` 이 있으면 새 폴더로 옮김(migrateBackup). 맥 시험 A1b 추가. Windows 경로는 그대로.
 - 2026-10-24 디자인 확정. 사용자 요청 정리: 앱 이름 ValoROAD, 발로란트/FPS 느낌, 계정 3개 저장 + 자동 로그인 유지,
   계정을 누르면 로그아웃 없이 그 계정 상점, 실제 스킨 이름 · 이미지, 위시리스트 스킨이 뜨면 알림, 구매 기능 없음, 로그인 문제 잘 해결.
 - 2026-10-24 v1.0.0 제작: 엔진 · 화면 · 껍데기 · 아이콘 · 가이드. 리눅스 데모 모드 + Playwright 로 상점(다크/라이트) · 위시리스트 · 설정 확인.

@@ -44,7 +44,11 @@ check "R1 도우미가 라이엇 로그인 주소에 연결 (상태 ${RST:-?} �
 check "R2 로그인하지 않은 상태는 토큰을 주지 않음" bash -c "! echo '$RLOC' | grep -q 'access_token'"
 
 echo "▶ A. 켜기 · 화면"
+# 예전 "backup" 폴더의 이전 버전 → 앱이 켜지면 Spotlight 가 안 찾는 backup.noindex 로 옮겨야 해요
+rm -rf "$SUP/backup" "$SUP/backup.noindex"; mkdir -p "$SUP/backup"; ditto "$APPDIR" "$SUP/backup/ValoROAD.app"
+printf '1.0.0' > "$SUP/backup/ValoROAD.app/Contents/Resources/version.txt"
 launch; check "A1 앱을 열면 엔진이 준비됨" ping_ok
+check "A1b 이전 버전 보관본을 Spotlight 가 안 찾는 폴더(backup.noindex)로 옮김" bash -c "test -d '$SUP/backup.noindex/ValoROAD.app' && test ! -e '$SUP/backup'"
 check "A2 엔진이 Dock 앱 방식으로 켜짐(shell=native)" bash -c "curl -fs -H 'x-token: $(tok)' http://127.0.0.1:$(port)/api/ping | grep -q '\"shell\":\"native\"'"
 check "A3 주소가 47931" test "$(port)" = "47931"
 for _ in $(seq 1 90); do [ "$(api /api/state | js 'd["content"]["ready"]')" = "True" ] && break; sleep 1; done
